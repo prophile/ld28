@@ -15,9 +15,14 @@ public class OneGame implements ApplicationListener {
     private SpriteBatch batch;
     private Texture texture;
     private Sprite sprite;
+    private Constants constants;
 
     @Override
     public void create() {
+        ConstantsLoader ldr = new ConstantsLoader(Gdx.files.internal(
+                "data/constants.txt").reader());
+        constants = ldr.load();
+
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
@@ -33,6 +38,9 @@ public class OneGame implements ApplicationListener {
         sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
         sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
         sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
+
+        System.out.println(constants.getString("hello-message",
+                "Hello, world!", "Message displayed on program start."));
     }
 
     @Override
