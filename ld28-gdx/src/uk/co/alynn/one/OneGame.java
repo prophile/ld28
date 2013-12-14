@@ -1,5 +1,12 @@
 package uk.co.alynn.one;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import uk.co.alynn.one.world.Segment;
+import uk.co.alynn.one.world.World;
+import uk.co.alynn.one.world.WorldUpdater;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -41,6 +48,21 @@ public class OneGame implements ApplicationListener {
 
         System.out.println(constants.getString("hello-message",
                 "Hello, world!", "Message displayed on program start."));
+
+        testWorld();
+    }
+
+    private void testWorld() {
+        List<Segment> segs = new ArrayList<Segment>();
+        segs.add(new Segment(1.0, 0.0));
+        segs.add(new Segment(1.0, 0.0));
+        segs.add(new Segment(1.0, 0.0));
+        World w = new World(segs);
+        for (int i = 0; i < 60; ++i) {
+            WorldUpdater up = new WorldUpdater(w, constants, 1.0 / 60.0);
+            up.tick();
+            System.out.println(w.getPlayer().getPosition());
+        }
     }
 
     @Override

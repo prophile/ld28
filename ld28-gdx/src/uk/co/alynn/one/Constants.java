@@ -7,6 +7,10 @@ public final class Constants {
 
     public Constants(Map<String, String> mapping) {
         _keys = mapping;
+        for (String k : mapping.keySet()) {
+            String v = mapping.get(k);
+            System.out.println(k + " := " + v);
+        }
     }
 
     private String rawGet(String key, String comment) {
