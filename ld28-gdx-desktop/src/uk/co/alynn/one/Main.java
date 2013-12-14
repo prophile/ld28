@@ -12,5 +12,8 @@ public class Main {
 		cfg.height = 320;
 		
 		new LwjglApplication(new OneGame(), cfg);
+		int [] points = new int [14]; //number of points after iteration * 2 (x, y)
+		int iterations = 1;
+		BezierRecursion.bezierRecursion(points , iterations);
 	}
 }
