@@ -23,8 +23,10 @@ public final class World {
         return _player;
     }
 
-    public Iterator<Number> numbersBetween(Number left, Number right) {
-        NavigableSet<Number> range = _numbers.subSet(left, true, right, false);
+    public Iterator<Number> numbersBetween(Position leftBound,
+            Position rightBound) {
+        NavigableSet<Number> range = _numbers.subSet(new Number(leftBound),
+                true, new Number(rightBound), false);
         return range.iterator();
     }
 

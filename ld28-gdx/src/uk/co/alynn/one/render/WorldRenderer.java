@@ -1,5 +1,8 @@
 package uk.co.alynn.one.render;
 
+import java.util.Iterator;
+
+import uk.co.alynn.one.world.Number;
 import uk.co.alynn.one.world.Position;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
@@ -26,6 +29,7 @@ public class WorldRenderer {
         renderBackground();
         renderSegments();
         renderCharacter();
+        renderNumbers();
         _shapeRenderer.dispose();
     }
 
@@ -44,6 +48,21 @@ public class WorldRenderer {
         setTransform(melon(_world.getPlayer().getPosition()));
         _request.getBatch().begin();
         _request.getBatch().draw(rg, 0.0f, 20.0f);
+        _request.getBatch().end();
+    }
+
+    private void renderNumbers() {
+        TextureRegion rg = _request.getTextureManager().getTexture("russia");
+        _request.getBatch().begin();
+        int rootIndex = _world.getPlayer().getPosition().getSegmentIndex();
+        Position leftBound = new Position(rootIndex - 10, 0.0, Side.SIDE_A);
+        Position rightBound = new Position(rootIndex + 11, 0.0, Side.SIDE_B);
+        Iterator<Number> bees = _world.numbersBetween(leftBound, rightBound);
+        while (bees.hasNext()) {
+            Number pony = bees.next();
+            setTransform(melon(pony.getPosition()));
+            _request.getBatch().draw(rg, 0.0f, 20.0f);
+        }
         _request.getBatch().end();
     }
 
