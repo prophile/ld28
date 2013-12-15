@@ -27,6 +27,11 @@ public final class World {
     }
 
     public Segment getSegment(int index) {
-        return _segments.get(index % _segments.size());
+        // horrendous, there must be a nicer way
+        int size = _segments.size();
+        while (index < size) {
+            index += size;
+        }
+        return _segments.get(index % size);
     }
 }

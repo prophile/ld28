@@ -41,14 +41,12 @@ public class WorldRenderer {
         int firstSegment = _world.getPlayer().getPosition().getSegmentIndex();
         int segmentRange = _request.getConstants().getInt("segment-range", 3,
                 "Segments to draw outside of the current segment.");
-        int lowerSegmentBound = firstSegment - segmentRange, upperSegmentBound = firstSegment
-                + segmentRange;
         Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
+        float d = (float) _world.getPlayer().getPosition().getPosition();
+        transformation.translate(-d, 0.0f);
         _shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
         _shapeRenderer.begin(ShapeType.Line);
-        float d = (float) _world.getPlayer().getPosition().getPosition();
         Matrix3 forwardTransformation = new Matrix3(transformation);
-        forwardTransformation.translate(-d, 0.0f);
         drawSegment(_world.getSegment(firstSegment).getLength(),
                 forwardTransformation);
         // draw segments forward
@@ -60,6 +58,17 @@ public class WorldRenderer {
                     activeSegment + 1).getAngle());
             drawSegment(_world.getSegment(activeSegment + 1).getLength(),
                     forwardTransformation);
+        }
+        Matrix3 reverseTransformation = new Matrix3(transformation);
+        for (int i = 0; i < segmentRange; ++i) {
+            int activeSegment = firstSegment - i;
+            reverseTransformation.rotate(-(float) _world.getSegment(
+                    activeSegment + 1).getAngle());
+            reverseTransformation
+                    .translate(-(float) _world.getSegment(activeSegment)
+                            .getLength(), 0.0f);
+            drawSegment(_world.getSegment(activeSegment).getLength(),
+                    reverseTransformation);
         }
         _shapeRenderer.end();
     }
