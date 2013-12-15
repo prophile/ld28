@@ -1,5 +1,6 @@
 package uk.co.alynn.one.render;
 
+import uk.co.alynn.one.world.Position;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
