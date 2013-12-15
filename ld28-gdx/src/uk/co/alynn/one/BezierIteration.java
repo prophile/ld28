@@ -45,7 +45,6 @@ public class BezierIteration{
     	double sAngle = 0;
     	double sLength = 1;
     	double [] v1 = new double [2], v2 = new double [2];
-    	double cosAngle;
     	
 
     	// calculate last segment
@@ -54,16 +53,28 @@ public class BezierIteration{
     	v1[1] = y[0] - y[counter];
     	v2[0] = x[counter] - x[counter-1];
     	v2[1] = y[counter] - y[counter-1];
-    	cosAngle = (v1[0]*v2[0] + v1[1]*v2[1])/( Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]) + Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]) );		
-    	sAngle = Math.toDegrees(Math.acos(cosAngle));
-    	String test = "angle:" + sAngle;
-        System.out.println(test);
+    	sAngle = BezierIteration.vectorsToAngle(v1, v2);
+    	
     	s[counter] = new Segment(sAngle, sLength);
     	while (counter > 0){
     		counter = counter - 1;
     		// calculate segments
+        	//v1[0] = x[counter + 1] - x[counter];
+        	//v1[1] = y[counter + 1] - y[counter];
+        	//v2[0] = x[counter] - x[counter-1];
+        	//v2[1] = y[counter] - y[counter-1];
+    		
     	}
     }
 
+    public static double vectorsToAngle(double [] v1, double [] v2){
+       	double sAngle = 0;
+    	double cosAngle;
+    	cosAngle = (v1[0]*v2[0] + v1[1]*v2[1])/( Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]) + Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]) );		
+    	sAngle = Math.toDegrees(Math.acos(cosAngle));
+    	String test = "angle:" + sAngle;
+    	System.out.println(test);
+    	return sAngle;
+	}
 } 
 
