@@ -1,5 +1,6 @@
 package uk.co.alynn.one.render;
 
+import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -53,6 +54,9 @@ public class WorldRenderer {
         Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
         float d = (float) _world.getPlayer().getPosition().getPosition();
         transformation.translate(-d, 0.0f);
+        if (_world.getPlayer().getPosition().getSide() == Side.SIDE_B) {
+            transformation.scale(1.0f, -1.0f);
+        }
         _shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
         _shapeRenderer.begin(ShapeType.Line);
         Matrix3 forwardTransformation = new Matrix3(transformation);
