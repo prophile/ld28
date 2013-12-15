@@ -42,8 +42,7 @@ public class Main {
         BezierIteration.discretize(iterations, xraw, yraw, xpoints, ypoints, sResult);
 
         // actual calculations
-        BezierIteration.bezierIteration(xpoints, iterations);
-        BezierIteration.bezierIteration(ypoints, iterations);
+
         BezierIteration.coordinatesToSegments(xpoints, ypoints, sResult);
 
         // test

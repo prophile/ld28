@@ -6,7 +6,36 @@ import uk.co.alynn.one.world.Segment;
 
 public class BezierIteration{
     public static void discretize(int iterations, double [] xraw, double [] yraw, double [] x, double [] y, Segment [] s){
-    	// insert function
+    	int startRaw = 0;
+    	int start = 0;
+    	int i = 0;
+        int pointsTMP = (int) Math.pow(2, iterations) * 3 + 1;
+    	double [] xTMP = new double[pointsTMP];
+    	double [] yTMP = new double[pointsTMP];
+    	
+    	
+    	while ( (startRaw/3)<iterations ){
+    		// transfer raw data for this step in temporary array
+    		i = 0;
+    		while (i<4){
+    			xTMP[i] = xraw[startRaw + i];
+    			yTMP[i] = yraw[startRaw + i];
+    			i = i+1;
+    		}
+    		
+    		// Address calculations at the end for the next loop, because start address is 0
+    		// get next start address in x, y
+    		start = start + (int) Math.pow(4, iterations) - 1;
+            BezierIteration.bezierIteration(xTMP, iterations);
+            BezierIteration.bezierIteration(yTMP, iterations);
+            
+            // transfer data into final array
+            // calculate Segments from final x, y arrays
+    		
+    		// get next start address in xraw, yraw
+    		startRaw = startRaw + 3;
+    	}
+    	
     }
 	
     public static void bezierIteration(double [] points , int iterations){
@@ -39,7 +68,9 @@ public class BezierIteration{
     }
     
     public static void coordinatesToSegments(double [] x, double [] y, Segment [] s){
-    	// calculates segments from coordinates
+    	// calculates segments from coordinates, 
+    	// independent of array length
+    	// all input arrays have to be the same length
     	// s[0] : segment that connects coordinate 0 and coordinate 1
     	// segment angle: angle between this element and the next
     	// last element: segment that connects last coordinate with coordinate 0
