@@ -29,4 +29,9 @@ public final class Number implements Comparable<Number> {
     public int compareTo(Number other) {
         return _pos.compareTo(other._pos);
     }
+
+    @Override
+    public String toString() {
+        return "N<" + _value + ", " + _pos + ">";
+    }
 }
