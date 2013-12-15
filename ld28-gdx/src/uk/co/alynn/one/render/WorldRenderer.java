@@ -51,14 +51,39 @@ public class WorldRenderer {
         int firstSegment = _world.getPlayer().getPosition().getSegmentIndex();
         int segmentRange = _request.getConstants().getInt("segment-range", 3,
                 "Segments to draw outside of the current segment.");
-        Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
-        float d = (float) _world.getPlayer().getPosition().getPosition();
-        transformation.translate(-d, 0.0f);
-        if (_world.getPlayer().getPosition().getSide() == Side.SIDE_B) {
-            transformation.scale(1.0f, -1.0f);
-        }
+        Matrix3 transformation = getBaseTransform();
+        startSegmentRender();
+        drawForwardSegments(firstSegment, segmentRange, transformation);
+        drawReverseSegments(firstSegment, segmentRange, transformation);
+        stopSegmentRender();
+    }
+
+    private void stopSegmentRender() {
+        _shapeRenderer.end();
+    }
+
+    private void startSegmentRender() {
         _shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
         _shapeRenderer.begin(ShapeType.Line);
+    }
+
+    private void drawReverseSegments(int firstSegment, int segmentRange,
+            Matrix3 transformation) {
+        Matrix3 reverseTransformation = new Matrix3(transformation);
+        for (int i = 0; i < segmentRange; ++i) {
+            int activeSegment = firstSegment - i;
+            reverseTransformation.rotate(-(float) _world.getSegment(
+                    activeSegment + 1).getAngle());
+            reverseTransformation
+                    .translate(-(float) _world.getSegment(activeSegment)
+                            .getLength(), 0.0f);
+            drawSegment(_world.getSegment(activeSegment).getLength(),
+                    reverseTransformation);
+        }
+    }
+
+    private void drawForwardSegments(int firstSegment, int segmentRange,
+            Matrix3 transformation) {
         Matrix3 forwardTransformation = new Matrix3(transformation);
         drawSegment(_world.getSegment(firstSegment).getLength(),
                 forwardTransformation);
@@ -72,17 +97,19 @@ public class WorldRenderer {
             drawSegment(_world.getSegment(activeSegment + 1).getLength(),
                     forwardTransformation);
         }
-        Matrix3 reverseTransformation = new Matrix3(transformation);
-        for (int i = 0; i < segmentRange; ++i) {
-            int activeSegment = firstSegment - i;
-            reverseTransformation.rotate(-(float) _world.getSegment(
-                    activeSegment + 1).getAngle());
-            reverseTransformation
-                    .translate(-(float) _world.getSegment(activeSegment)
-                            .getLength(), 0.0f);
-            drawSegment(_world.getSegment(activeSegment).getLength(),
-                    reverseTransformation);
+    }
+
+    private Matrix3 getBaseTransform() {
+        Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
+        float d = (float) _world.getPlayer().getPosition().getPosition();
+        transformation.translate(-d, 0.0f);
+        transformInversion(transformation);
+        return transformation;
+    }
+
+    private void transformInversion(Matrix3 transformation) {
+        if (_world.getPlayer().getPosition().getSide() == Side.SIDE_B) {
+            transformation.scale(1.0f, -1.0f);
         }
-        _shapeRenderer.end();
     }
 }
