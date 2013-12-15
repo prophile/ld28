@@ -78,7 +78,7 @@ public class WorldRenderer {
         int firstSegment = _world.getPlayer().getPosition().getSegmentIndex();
         int segmentRange = _request.getConstants().getInt("segment-range", 3,
                 "Segments to draw outside of the current segment.");
-        Matrix3 transformation = getBaseTransform(true);
+        Matrix3 transformation = getBaseTransform();
         startSegmentRender();
         drawForwardSegments(firstSegment, segmentRange, transformation);
         drawReverseSegments(firstSegment, segmentRange, transformation);
@@ -95,7 +95,7 @@ public class WorldRenderer {
     }
 
     private Matrix3 melon(Position pos) {
-        Matrix3 base = getBaseTransform(true);
+        Matrix3 base = getBaseTransform();
         Position playerPosition = _world.getPlayer().getPosition();
         int targetSegment = pos.getSegmentIndex();
         int referenceSegment = playerPosition.getSegmentIndex();
@@ -151,12 +151,10 @@ public class WorldRenderer {
         }
     }
 
-    private Matrix3 getBaseTransform(boolean shift) {
+    private Matrix3 getBaseTransform() {
         Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
         float d = (float) _world.getPlayer().getPosition().getPosition();
-        if (shift) {
-            transformation.translate(-d, 0.0f);
-        }
+        transformation.translate(-d, 0.0f);
         transformInversion(transformation);
         return transformation;
     }
