@@ -1,13 +1,9 @@
 package uk.co.alynn.one.render;
 
-import java.util.Iterator;
-
-import uk.co.alynn.one.world.Number;
 import uk.co.alynn.one.world.Position;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix3;
@@ -37,38 +33,18 @@ public class WorldRenderer {
 
     }
 
-    private void setTransform(Matrix3 bees) {
+    void setTransform(Matrix3 bees) {
         Matrix4 pony = new Matrix4();
         pony.set(bees);
         _request.getBatch().setTransformMatrix(pony);
     }
 
     private void renderCharacter() {
-        TextureRegion rg = _request.getTextureManager().getTexture("temp");
-        Position playerPosition = _world.getPlayer().getPosition();
-        setTransform(melon(playerPosition));
-        _request.getBatch().begin();
-        _request.getBatch().draw(rg, 0.0f, 20.0f);
-        _request.getBatch().end();
+        CharacterRenderer.renderCharacter(this);
     }
 
     private void renderNumbers() {
-        TextureRegion rg;
-        _request.getBatch().begin();
-        int rootIndex = _world.getPlayer().getPosition().getSegmentIndex();
-        Position leftBound = new Position(rootIndex - 10, 0.0, Side.SIDE_A);
-        Position rightBound = new Position(rootIndex + 11, 0.0, Side.SIDE_B);
-        Iterator<Number> bees = _world.numbersBetween(leftBound, rightBound);
-        while (bees.hasNext()) {
-            Number pony = bees.next();
-            if (pony.isPhantom()) {
-                continue;
-            }
-            setTransform(melon(pony.getPosition()));
-            rg = _request.getTextureManager().getTexture("" + pony.getValue());
-            _request.getBatch().draw(rg, 0.0f, 20.0f, 64.0f, 64.0f);
-        }
-        _request.getBatch().end();
+        NumberRenderer.renderNumbers(this);
     }
 
     private void drawSegment(double len, Matrix3 transformation) {
@@ -100,7 +76,7 @@ public class WorldRenderer {
         _shapeRenderer.begin(ShapeType.Line);
     }
 
-    private Matrix3 melon(Position pos) {
+    Matrix3 melon(Position pos) {
         Matrix3 base = getBaseTransform();
         Position playerPosition = _world.getPlayer().getPosition();
         int targetSegment = pos.getSegmentIndex();
@@ -168,5 +144,13 @@ public class WorldRenderer {
         if (_world.getPlayer().getPosition().getSide() == Side.SIDE_B) {
             transformation.scale(1.0f, -1.0f);
         }
+    }
+
+    public RenderRequest getRequest() {
+        return _request;
+    }
+
+    public World getWorld() {
+        return _world;
     }
 }
