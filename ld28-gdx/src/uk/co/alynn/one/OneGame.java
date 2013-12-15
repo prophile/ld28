@@ -3,6 +3,8 @@ package uk.co.alynn.one;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.alynn.one.render.RenderRequest;
+import uk.co.alynn.one.render.WorldRenderer;
 import uk.co.alynn.one.world.Segment;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
@@ -71,6 +73,9 @@ public class OneGame implements ApplicationListener {
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         sprite.draw(batch);
+        WorldRenderer renderer = new WorldRenderer(world, new RenderRequest(
+                constants, batch, null));
+        renderer.renderWorld();
         batch.end();
 
         WorldUpdater up = new WorldUpdater(world, constants, 1 / 30.0);
