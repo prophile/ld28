@@ -9,30 +9,55 @@ public class BezierIteration{
     	int startRaw = 0;
     	int start = 0;
     	int i = 0;
-        int pointsTMP = (int) Math.pow(2, iterations) * 3 + 1;
-    	double [] xTMP = new double[pointsTMP];
-    	double [] yTMP = new double[pointsTMP];
+        int tmpLength = (int) Math.pow(2, iterations) * 3 + 1;
+    	double [] xTMP = new double[tmpLength];
+    	double [] yTMP = new double[tmpLength];
+    	String test = "iterationStart " + startRaw + iterations;
+        System.out.println(test);
     	
-    	
-    	while ( (startRaw/3)<iterations ){
+    	while ( startRaw + 3 <= xraw.length ){
+    		// goes through input coordinates in steps of four
+    		
     		// transfer raw data for this step in temporary array
+        	test = "iterationStep " + startRaw + xraw.length;
+            System.out.println(test);
     		i = 0;
     		while (i<4){
+    	    	test = "i " + i + "startRaw" + startRaw;
+    	        System.out.println(test);
     			xTMP[i] = xraw[startRaw + i];
     			yTMP[i] = yraw[startRaw + i];
     			i = i+1;
     		}
     		
-    		// Address calculations at the end for the next loop, because start address is 0
-    		// get next start address in x, y
-    		start = start + (int) Math.pow(4, iterations) - 1;
-            BezierIteration.bezierIteration(xTMP, iterations);
+    		BezierIteration.bezierIteration(xTMP, iterations);
             BezierIteration.bezierIteration(yTMP, iterations);
             
             // transfer data into final array
-            // calculate Segments from final x, y arrays
-    		
-    		// get next start address in xraw, yraw
+            i = 0;
+            while (i<tmpLength){
+            	x[start+i] = xTMP[i];
+            	y[start+i] = yTMP[i];
+            	i = i+1;
+            }
+            
+            //*****TEST
+            int counter = x.length;
+            test = "LOL";
+            while (counter > 0) {
+                test = test + "; x" + x[counter - 1] + ", y"
+                        + y[counter - 1];
+                counter = counter - 1;
+            }
+            System.out.println(test);
+            //TEST OVER
+            // calculate Segments from final coordinate arrays
+            BezierIteration.coordinatesToSegments(x, y, s);
+            
+    		// Address calculations at the end for the next loop, because start address is 0
+    		// get next start address in x, y
+    		start = start + tmpLength - 1;    		
+    		// get next start address in xRaw, yRaw
     		startRaw = startRaw + 3;
     	}
     	
@@ -138,6 +163,7 @@ public class BezierIteration{
         	} else{
         		y[(counter-1)/2] = raw[counter];
         	}
+        	counter = counter + 1;
         }
     }
 }
