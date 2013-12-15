@@ -14,13 +14,11 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class OneGame implements ApplicationListener {
     private OrthographicCamera camera;
     private SpriteBatch batch;
-    private Sprite sprite;
     private Constants constants;
     private World world;
     private TextureManager textureManager;
@@ -38,11 +36,6 @@ public class OneGame implements ApplicationListener {
 
         camera = new OrthographicCamera(1, h / w);
         batch = new SpriteBatch();
-
-        sprite = new Sprite(textureManager.getTexture("libgdx"));
-        sprite.setSize(0.9f, 0.9f * sprite.getHeight() / sprite.getWidth());
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
-        sprite.setPosition(-sprite.getWidth() / 2, -sprite.getHeight() / 2);
 
         System.out.println(constants.getString("hello-message",
                 "Hello, world!", "Message displayed on program start."));
@@ -67,10 +60,9 @@ public class OneGame implements ApplicationListener {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        sprite.draw(batch);
         WorldRenderer renderer = new WorldRenderer(world, new RenderRequest(
                 constants, batch, textureManager));
-        // renderer.renderWorld();
+        renderer.renderWorld();
         batch.end();
 
         WorldUpdater up = new WorldUpdater(world, constants, 1 / 30.0);
