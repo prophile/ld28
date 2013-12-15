@@ -17,6 +17,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 
 public class OneGame implements ApplicationListener {
     private OrthographicCamera _camera;
@@ -130,6 +131,7 @@ public class OneGame implements ApplicationListener {
 
     private void drawWorld() {
         _batch.setProjectionMatrix(_camera.combined);
+        _batch.setTransformMatrix(new Matrix4());
         _batch.begin();
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, _batch, _textureManager));
