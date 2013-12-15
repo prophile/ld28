@@ -1,27 +1,21 @@
 package uk.co.alynn.one.world;
 
 public final class Position implements Comparable<Position> {
-    private final int _segmentIndex;
-    private final double _position;
+    private final double _t;
     private final Side _side;
 
-    public Position(int segmentIndex, double position, Side side) {
-        _segmentIndex = segmentIndex;
-        _position = position;
+    public Position(double t, Side side) {
+        _t = (t + 10000.0) % 1.0;
         _side = side;
     }
 
     @Override
     public String toString() {
-        return "Pos " + _segmentIndex + ":" + _position + " " + _side;
+        return "Pos " + _t + " " + _side;
     }
 
-    public int getSegmentIndex() {
-        return _segmentIndex;
-    }
-
-    public double getPosition() {
-        return _position;
+    public double getT() {
+        return _t;
     }
 
     public Side getSide() {
@@ -30,18 +24,19 @@ public final class Position implements Comparable<Position> {
 
     @Override
     public int compareTo(Position other) {
-        if (_segmentIndex < other._segmentIndex) {
+        if (_t < other._t) {
             return -1;
-        } else if (_segmentIndex > other._segmentIndex) {
-            return 1;
-        } else if (_position < other._position) {
-            return -1;
-        } else if (_position > other._position) {
+        } else if (_t > other._t) {
             return 1;
         } else if (_side == Side.SIDE_A) {
             return other._side == Side.SIDE_B ? -1 : 0;
         } else {
             return other._side == Side.SIDE_B ? 0 : 1;
         }
+    }
+
+    public double distanceTo(Position other) {
+        double absDist = Math.abs(_t - other._t);
+        return Math.min(absDist, 1 - absDist);
     }
 }

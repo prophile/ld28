@@ -26,8 +26,8 @@ public final class WorldUpdater {
     public void doFlip() {
         Player player = _world.getPlayer();
         Position oldPosition = player.getPosition();
-        Position newPosition = new Position(oldPosition.getSegmentIndex(),
-                oldPosition.getPosition(), otherSide(oldPosition.getSide()));
+        Position newPosition = new Position(oldPosition.getT(),
+                otherSide(oldPosition.getSide()));
         player.setPosition(newPosition);
         System.err.println("wup");
     }
@@ -54,28 +54,18 @@ public final class WorldUpdater {
     }
 
     private Position advancePosition(Position pos, double dx) {
-        int segmentIdx = pos.getSegmentIndex();
-        double segmentLoc = pos.getPosition();
-        Segment currentSegment = _world.getSegment(segmentIdx);
-        Side segmentSide = pos.getSide();
-        double currentSegmentLength = currentSegment.getLength();
-        if (segmentLoc + dx > currentSegmentLength) {
-            return advancePosition(new Position(segmentIdx + 1, 0.0,
-                    segmentSide), dx - (currentSegmentLength - segmentLoc));
-        } else {
-            return new Position(segmentIdx, segmentLoc + dx, segmentSide);
-        }
+        return new Position(pos.getT() + dx, pos.getSide());
     }
 
     private void tickMovement(double dx) throws GameOverException {
         Player player = _world.getPlayer();
         Position oldPosition = player.getPosition();
         Position newPosition = advancePosition(oldPosition, dx);
-        collisionsInRange(oldPosition, newPosition);
+        collisionsInRange(oldPosition.getT(), newPosition.getT());
         player.setPosition(newPosition);
     }
 
-    private void collisionsInRange(Position oldPos, Position newPos)
+    private void collisionsInRange(double oldPos, double newPos)
             throws GameOverException {
         Iterator<Number> numbers = _world.numbersBetween(oldPos, newPos);
         while (numbers.hasNext()) {

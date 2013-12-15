@@ -1,12 +1,14 @@
 package uk.co.alynn.one.render;
 
-import uk.co.alynn.one.world.Position;
+import uk.co.alynn.one.world.LevelUtil;
+import uk.co.alynn.one.world.Player;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
 
 public class WorldRenderer {
     private final RenderRequest _request;
@@ -25,6 +27,14 @@ public class WorldRenderer {
         renderCharacter();
         renderNumbers();
         _shapeRenderer.dispose();
+    }
+
+    public Vector2 playerPosition() {
+        Player plr = _world.getPlayer();
+        double height = 25.0 * (plr.getPosition().getSide() == Side.SIDE_A ? 1.0
+                : -1.0);
+        return LevelUtil.position(_world.getLevel(), plr.getPosition().getT(),
+                height);
     }
 
     private void renderBackground() {
@@ -49,50 +59,12 @@ public class WorldRenderer {
         SegmentRenderer.renderSegments(this);
     }
 
-    Matrix3 getBaseTransform() {
-        Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
-        float d = (float) _world.getPlayer().getPosition().getPosition();
-        transformation.translate(-d, 0.0f);
-        return transformation;
-    }
-
-    void transformInversion(Matrix3 transformation) {
-        if (_world.getPlayer().getPosition().getSide() == Side.SIDE_B) {
-            transformation.scale(1.0f, -1.0f);
-        }
-    }
-
     public RenderRequest getRequest() {
         return _request;
     }
 
     public World getWorld() {
         return _world;
-    }
-
-    Matrix3 melon(Position pos) {
-        Matrix3 base = getBaseTransform();
-        Position playerPosition = _world.getPlayer().getPosition();
-        int targetSegment = pos.getSegmentIndex();
-        int referenceSegment = playerPosition.getSegmentIndex();
-        if (targetSegment > referenceSegment) {
-            for (int i = targetSegment; i < referenceSegment; ++i) {
-                base.translate((float) _world.getSegment(i).getLength(), 0.0f);
-                base.rotate((float) _world.getSegment(i).getAngle()
-                        .getDegrees());
-            }
-        } else if (targetSegment < referenceSegment) {
-            for (int i = referenceSegment; i > targetSegment; --i) {
-                base.rotate(-(float) _world.getSegment(i + 1).getAngle()
-                        .getDegrees());
-                base.translate(-(float) _world.getSegment(i).getLength(), 0.0f);
-            }
-        }
-        if (pos.getSide() != _world.getPlayer().getPosition().getSide()) {
-            base.scale(1.0f, -1.0f);
-        }
-        base.translate((float) pos.getPosition(), 0.0f);
-        return base;
     }
 
     ShapeRenderer getShapeRenderer() {

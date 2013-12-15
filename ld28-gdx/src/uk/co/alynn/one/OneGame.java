@@ -1,15 +1,14 @@
 package uk.co.alynn.one;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
+import uk.co.alynn.one.world.CircleLevel;
 import uk.co.alynn.one.world.GameOverException;
-import uk.co.alynn.one.world.Segment;
+import uk.co.alynn.one.world.Level;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
 
@@ -84,7 +83,7 @@ public class OneGame implements ApplicationListener {
     }
 
     private void createWorldObject() {
-        _world = new World(generateWorldSegments());
+        _world = new World(generateLevel());
     }
 
     private void loadWorldNumbers() {
@@ -101,14 +100,8 @@ public class OneGame implements ApplicationListener {
         throw new RuntimeException("Failed to load number data.");
     }
 
-    private List<Segment> generateWorldSegments() {
-        List<Segment> segs = new ArrayList<Segment>();
-        int len = 30;
-        for (int i = 0; i < len; ++i) {
-            segs.add(new Segment(30.0, Angle.degrees(90.0 / len)));
-            // segs.add(new Segment(1000.0, Angle.degrees(30.0)));
-        }
-        return segs;
+    private Level generateLevel() {
+        return new CircleLevel(1000.0f);
     }
 
     @Override

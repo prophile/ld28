@@ -5,7 +5,7 @@ public final class Player {
     private int _score;
 
     public Player() {
-        _pos = new Position(0, 0.0, Side.SIDE_A);
+        _pos = new Position(0.0, Side.SIDE_A);
         _score = 0;
     }
 
