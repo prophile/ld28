@@ -17,7 +17,7 @@ public class Main {
 		// example of bezier iteration
 		// should be done for x- and y coordinates
 
-		int iterations = 1;
+		int iterations = 3;
 		
 
 		int allPoints = (((int)Math.pow(2,iterations))*3) + 1;
