@@ -40,7 +40,7 @@ final class ConstantsLoader {
         String nextLine = readStrippedLine();
         String[] components = nextLine.split("=", 2);
         if (components.length == 2) {
-            _mapping.put(components[0], components[1]);
+            _mapping.put(components[0].trim(), components[1].trim());
         }
     }
 
