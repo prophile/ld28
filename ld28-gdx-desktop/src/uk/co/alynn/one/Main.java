@@ -3,6 +3,7 @@ package uk.co.alynn.one;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import java.lang.Math;
+import uk.co.alynn.one.world.Segment;
 
 public class Main {
 	public static void main(String[] args) {
@@ -17,23 +18,34 @@ public class Main {
 		// example of bezier iteration
 		// should be done for x- and y coordinates
 
-		int iterations = 3;
+		int iterations = 2;
 		
 
 		int allPoints = (((int)Math.pow(2,iterations))*3) + 1;
-		float [] xpoints = new float [allPoints]; //number of points after iteration
+		double [] xpoints = new double [allPoints]; //number of points after iteration
+		double [] ypoints = new double [allPoints]; //number of points after iteration
+		Segment [] sResult = new Segment [allPoints];
+		// initialize to example: square
 		xpoints[0] = 0;
 		xpoints[1] = 1;
-		xpoints[2] = 2;
-		xpoints[3] = 3;
+		xpoints[2] = 1;
+		xpoints[3] = 0;
 		
+		ypoints[0] = 0;
+		ypoints[1] = 0;
+		ypoints[2] = 1;
+		ypoints[3] = 1;
+				
+		// actual calculations
 		BezierIteration.bezierIteration(xpoints, iterations);
+		BezierIteration.bezierIteration(ypoints, iterations);
+		BezierIteration.coordinatesToSegments(xpoints, ypoints, sResult);
 
-		// test bezier iteration
+		// test
 		String test = "Bezier:";
 		int counter = allPoints;
 		while (counter > 0){
-			test = test + "; " + xpoints[counter - 1];
+			test = test + "; " + xpoints[counter - 1] + ", l" + sResult[counter - 1].getLength() + ", a" + sResult[counter - 1].getAngle();
 			counter = counter - 1;
 		}
         System.out.println(test);
