@@ -37,9 +37,6 @@ public class OneGame implements ApplicationListener {
         camera = new OrthographicCamera(1, h / w);
         batch = new SpriteBatch();
 
-        System.out.println(constants.getString("hello-message",
-                "Hello, world!", "Message displayed on program start."));
-
         List<Segment> segs = new ArrayList<Segment>();
         int len = 30;
         for (int i = 0; i < len; ++i) {
