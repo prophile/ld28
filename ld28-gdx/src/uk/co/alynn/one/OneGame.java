@@ -136,8 +136,9 @@ public class OneGame implements ApplicationListener {
         try {
             up.tick();
         } catch (GameOverException go) {
+            // regenerate world
+            generateWorld();
             System.err.println("GAME OVER MAN");
-            System.exit(0);
         }
     }
 
