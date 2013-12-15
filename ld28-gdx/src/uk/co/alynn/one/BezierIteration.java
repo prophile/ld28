@@ -82,13 +82,28 @@ public class BezierIteration{
     	}
     }
 
-    public static double vectorsToAngle(double [] v1, double [] v2){
-    	// calculate the angle between two vectors
-       	double sAngle = 0;
-    	double cosAngle;
-    	cosAngle = (v1[0]*v2[0] + v1[1]*v2[1])/( Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]) + Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]) );		
-    	sAngle = Math.toDegrees(Math.acos(cosAngle));
-    	return sAngle;
-	}
-} 
-
+    public static double vectorsToAngle(double[] v1, double[] v2) {
+        // calculate the angle between two vectors
+        double sAngle = 0;
+        double cosAngle;
+        cosAngle = (v1[0] * v2[0] + v1[1] * v2[1])
+                / (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]) + Math.sqrt(v2[0]
+                        * v2[0] + v2[1] * v2[1]));
+        sAngle = Math.toDegrees(Math.acos(cosAngle));
+        return sAngle;
+    }
+    
+    
+    public static void rawData(double[] raw, double[] x, double[] y) {
+        int total = raw.length;
+        int counter = 0;
+        while (counter < total){
+        	// split into x- and y-coordinates
+        	if (counter%2 == 0){
+        		x[counter/2] = raw[counter];
+        	} else{
+        		y[(counter-1)/2] = raw[counter];
+        	}
+        }
+    }
+}
