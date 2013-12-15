@@ -38,8 +38,10 @@ public final class Position implements Comparable<Position> {
             return -1;
         } else if (_position > other._position) {
             return 1;
+        } else if (_side == Side.SIDE_A) {
+            return other._side == Side.SIDE_B ? -1 : 0;
         } else {
-            return 0;
+            return other._side == Side.SIDE_B ? 0 : 1;
         }
     }
 }
