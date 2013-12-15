@@ -8,6 +8,7 @@ import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
+import uk.co.alynn.one.world.GameOverException;
 import uk.co.alynn.one.world.Segment;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
@@ -132,7 +133,12 @@ public class OneGame implements ApplicationListener {
     private void updateWorld() {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
         emptyActionQueue(up);
-        up.tick();
+        try {
+            up.tick();
+        } catch (GameOverException go) {
+            System.err.println("GAME OVER MAN");
+            System.exit(0);
+        }
     }
 
     private void emptyActionQueue(WorldUpdater up) {

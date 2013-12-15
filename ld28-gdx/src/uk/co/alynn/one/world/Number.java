@@ -17,10 +17,13 @@ public final class Number implements Comparable<Number> {
         return _value;
     }
 
+    public boolean isPhantom() {
+        return getValue() == 0;
+    }
+
     public void setValue(int val) {
-        if (val <= 0) {
-            throw new IllegalArgumentException(
-                    "Numbers must be classical naturals.");
+        if (val < 0) {
+            throw new IllegalArgumentException("Numbers must be non-negative.");
         }
         _value = val;
     }

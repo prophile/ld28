@@ -60,6 +60,9 @@ public class WorldRenderer {
         Iterator<Number> bees = _world.numbersBetween(leftBound, rightBound);
         while (bees.hasNext()) {
             Number pony = bees.next();
+            if (pony.isPhantom()) {
+                continue;
+            }
             setTransform(melon(pony.getPosition()));
             _request.getBatch().draw(rg, 0.0f, 20.0f);
         }
