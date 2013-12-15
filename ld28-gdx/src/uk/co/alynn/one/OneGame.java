@@ -1,5 +1,6 @@
 package uk.co.alynn.one;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +57,13 @@ public class OneGame implements ApplicationListener {
             segs.add(new Segment(30.0, 90.0 / len));
         }
         world = new World(segs);
+        try {
+            world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
+                    .reader(512));
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to load number data.");
+        }
     }
 
     @Override
