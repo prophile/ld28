@@ -37,7 +37,9 @@ public class WorldRenderer {
                 "temp"));
         sprite.setPosition(220.0f, 160.0f);
         sprite.setOrigin(sprite.getWidth() * 0.5f, sprite.getHeight() * 0.5f);
+        _request.getBatch().begin();
         sprite.draw(_request.getBatch());
+        _request.getBatch().end();
     }
 
     private void drawSegment(double len, Matrix3 transformation) {

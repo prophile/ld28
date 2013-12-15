@@ -15,12 +15,10 @@ import uk.co.alynn.one.world.WorldUpdater;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
 public class OneGame implements ApplicationListener {
-    private OrthographicCamera _camera;
     private SpriteBatch _batch;
     private Constants _constants;
     private World _world;
@@ -42,17 +40,11 @@ public class OneGame implements ApplicationListener {
     }
 
     private void setupGraphics() {
-        setupCamera();
         setupSpriteBatch();
     }
 
     private void setupSpriteBatch() {
         _batch = new SpriteBatch();
-    }
-
-    private void setupCamera() {
-        _camera = new OrthographicCamera(1, (float) Gdx.graphics.getHeight()
-                / (float) Gdx.graphics.getWidth());
     }
 
     private void setupTextureManager() {
@@ -130,13 +122,10 @@ public class OneGame implements ApplicationListener {
     }
 
     private void drawWorld() {
-        _batch.setProjectionMatrix(_camera.combined);
         _batch.setTransformMatrix(new Matrix4());
-        _batch.begin();
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, _batch, _textureManager));
         renderer.renderWorld();
-        _batch.end();
     }
 
     private void updateWorld() {
