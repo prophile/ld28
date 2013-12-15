@@ -3,6 +3,7 @@ package uk.co.alynn.one;
 import java.util.ArrayList;
 import java.util.List;
 
+import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
@@ -22,6 +23,7 @@ public class OneGame implements ApplicationListener {
     private Constants constants;
     private World world;
     private TextureManager textureManager;
+    private InputHandler inputHandler;
 
     @Override
     public void create() {
@@ -30,6 +32,9 @@ public class OneGame implements ApplicationListener {
         constants = ldr.load();
 
         textureManager = new TextureManager();
+
+        inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(inputHandler);
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
