@@ -5,7 +5,10 @@ import java.lang.Math;
 import uk.co.alynn.one.world.Segment;
 
 public class BezierIteration{
-
+    public static void discretize(int iterations, double [] xraw, double [] yraw, double [] x, double [] y, Segment [] s){
+    	// insert function
+    }
+	
     public static void bezierIteration(double [] points , int iterations){
         int i = 0;
         while (i < iterations){
