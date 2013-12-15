@@ -19,46 +19,46 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class OneGame implements ApplicationListener {
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private Constants constants;
-    private World world;
-    private TextureManager textureManager;
-    private InputHandler inputHandler;
-    private boolean flipQueued = false;
+    private OrthographicCamera _camera;
+    private SpriteBatch _batch;
+    private Constants _constants;
+    private World _world;
+    private TextureManager _textureManager;
+    private InputHandler _inputHandler;
+    private final ActionQueue _actionQueue = new ActionQueue();
 
     @Override
     public void create() {
         ConstantsLoader ldr = new ConstantsLoader(Gdx.files.internal(
                 "data/constants.txt").reader());
-        constants = ldr.load();
+        _constants = ldr.load();
 
-        textureManager = new TextureManager();
+        _textureManager = new TextureManager();
 
-        inputHandler = new InputHandler();
-        Gdx.input.setInputProcessor(inputHandler);
+        _inputHandler = new InputHandler();
+        Gdx.input.setInputProcessor(_inputHandler);
 
-        inputHandler.bind("62", new Runnable() {
+        _inputHandler.bind("62", new Runnable() {
             @Override
             public void run() {
-                flipQueued = true;
+                _actionQueue.queueFlip();
             }
         });
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
-        camera = new OrthographicCamera(1, h / w);
-        batch = new SpriteBatch();
+        _camera = new OrthographicCamera(1, h / w);
+        _batch = new SpriteBatch();
 
         List<Segment> segs = new ArrayList<Segment>();
         int len = 30;
         for (int i = 0; i < len; ++i) {
             segs.add(new Segment(30.0, Angle.degrees(90.0 / len)));
         }
-        world = new World(segs);
+        _world = new World(segs);
         try {
-            world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
+            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
                     .reader(512));
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,7 +68,7 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        _batch.dispose();
     }
 
     @Override
@@ -76,17 +76,16 @@ public class OneGame implements ApplicationListener {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        WorldRenderer renderer = new WorldRenderer(world, new RenderRequest(
-                constants, batch, textureManager));
+        _batch.setProjectionMatrix(_camera.combined);
+        _batch.begin();
+        WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
+                _constants, _batch, _textureManager));
         renderer.renderWorld();
-        batch.end();
+        _batch.end();
 
-        WorldUpdater up = new WorldUpdater(world, constants, 1 / 30.0);
-        if (flipQueued) {
+        WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
+        if (_actionQueue.popFlip()) {
             up.doFlip();
-            flipQueued = false;
         }
         up.tick();
     }
