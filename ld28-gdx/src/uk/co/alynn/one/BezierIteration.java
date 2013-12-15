@@ -41,7 +41,6 @@ public class BezierIteration{
     	// segment angle: angle between this element and the next
     	// last element: segment that connects last coordinate with coordinate 0
     	int elements = x.length - 1;
-    	elements = 3;
     	int counter = elements;
     	double sAngle = 0;
     	double sLength = 1;
@@ -55,8 +54,8 @@ public class BezierIteration{
     	v2[0] = x[counter] - x[counter-1];
     	v2[1] = y[counter] - y[counter-1];
     	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-    	
-    	s[counter] = new Segment(sAngle, sLength);
+
+    	s[counter] = new Segment(sLength, sAngle);
 
     	// calculate other segments
     	while (counter > 0){
@@ -71,8 +70,6 @@ public class BezierIteration{
             	v2[0] = x[counter] - x[elements];   // use the last element
             	v2[1] = y[counter] - y[elements];   // use the last element
             	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-        		String test = "angletest " + sAngle;
-                System.out.println(test);
     			
     		}else{
     			v1[0] = x[counter + 1] - x[counter];
@@ -80,10 +77,8 @@ public class BezierIteration{
     			v2[0] = x[counter] - x[counter-1];
     			v2[1] = y[counter] - y[counter-1];
     			sAngle = BezierIteration.vectorsToAngle(v1, v2);
-        		String test = "angletest " + sAngle;
-                System.out.println(test);
     		}
-        	s[counter] = new Segment(sAngle, sLength);
+        	s[counter] = new Segment(sLength, sAngle);
     	}
     }
 
