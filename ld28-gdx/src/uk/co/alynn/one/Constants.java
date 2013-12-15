@@ -7,6 +7,10 @@ public final class Constants {
 
     public Constants(Map<String, String> mapping) {
         _keys = mapping;
+        for (String k : mapping.keySet()) {
+            String v = mapping.get(k);
+            System.out.println(k + " := " + v);
+        }
     }
 
     private String rawGet(String key, String comment) {
@@ -21,5 +25,10 @@ public final class Constants {
     public double getDouble(String key, double dfl, String comment) {
         String value = rawGet(key, comment);
         return value != null ? Double.parseDouble(value) : dfl;
+    }
+
+    public int getInt(String key, int dfl, String comment) {
+        String value = rawGet(key, comment);
+        return value != null ? Integer.parseInt(value) : dfl;
     }
 }
