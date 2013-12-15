@@ -48,7 +48,7 @@ public class BezierIteration{
     	
 
     	// calculate last segment
-    	sLength = Math.sqrt((x[counter]-x[0])*(x[counter]-x[0]) + (y[counter]-y[0])*(y[counter]-y[0]));
+    	sLength = Math.sqrt(Math.pow((x[counter]-x[0]),2) + Math.pow((y[counter]-y[0]),2));
     	v1[0] = x[0] - x[counter];
     	v1[1] = y[0] - y[counter];
     	v2[0] = x[counter] - x[counter-1];
