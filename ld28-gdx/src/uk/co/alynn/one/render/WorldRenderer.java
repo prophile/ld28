@@ -4,10 +4,11 @@ import uk.co.alynn.one.world.Position;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
 public class WorldRenderer {
@@ -32,13 +33,17 @@ public class WorldRenderer {
 
     }
 
+    private void setTransform(Matrix3 bees) {
+        Matrix4 pony = new Matrix4();
+        pony.set(bees);
+        _request.getBatch().setTransformMatrix(pony);
+    }
+
     private void renderCharacter() {
-        Sprite sprite = new Sprite(_request.getTextureManager().getTexture(
-                "temp"));
-        sprite.setPosition(220.0f, 160.0f);
-        sprite.setOrigin(sprite.getWidth() * 0.5f, sprite.getHeight() * 0.5f);
+        TextureRegion rg = _request.getTextureManager().getTexture("temp");
+        setTransform(melon(_world.getPlayer().getPosition()));
         _request.getBatch().begin();
-        sprite.draw(_request.getBatch());
+        _request.getBatch().draw(rg, 0.0f, 20.0f);
         _request.getBatch().end();
     }
 
@@ -54,7 +59,7 @@ public class WorldRenderer {
         int firstSegment = _world.getPlayer().getPosition().getSegmentIndex();
         int segmentRange = _request.getConstants().getInt("segment-range", 3,
                 "Segments to draw outside of the current segment.");
-        Matrix3 transformation = getBaseTransform();
+        Matrix3 transformation = getBaseTransform(true);
         startSegmentRender();
         drawForwardSegments(firstSegment, segmentRange, transformation);
         drawReverseSegments(firstSegment, segmentRange, transformation);
@@ -71,7 +76,7 @@ public class WorldRenderer {
     }
 
     private Matrix3 melon(Position pos) {
-        Matrix3 base = getBaseTransform();
+        Matrix3 base = getBaseTransform(false);
         Position playerPosition = _world.getPlayer().getPosition();
         if (pos.getSide() != playerPosition.getSide()) {
             base.scale(1.0f, -1.0f);
@@ -126,10 +131,12 @@ public class WorldRenderer {
         }
     }
 
-    private Matrix3 getBaseTransform() {
+    private Matrix3 getBaseTransform(boolean shift) {
         Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
         float d = (float) _world.getPlayer().getPosition().getPosition();
-        transformation.translate(-d, 0.0f);
+        if (shift) {
+            transformation.translate(-d, 0.0f);
+        }
         transformInversion(transformation);
         return transformation;
     }
