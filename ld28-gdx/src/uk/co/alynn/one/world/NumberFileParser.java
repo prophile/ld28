@@ -27,9 +27,6 @@ final class NumberFileParser {
         Matcher match = _matcher.matcher(line);
         if (match.matches()) {
             handleMatch(match);
-        } else {
-            System.out.println(NF_REGEX);
-            System.out.println("Skipped: " + line);
         }
     }
 
@@ -57,7 +54,6 @@ final class NumberFileParser {
         int value = Integer.parseInt(match.group(1));
         double pos = Double.parseDouble(match.group(2));
         Side side = interpretSide(match.group(3));
-        System.out.println("match");
         _generator.addNumber(value, pos, side);
     }
 
