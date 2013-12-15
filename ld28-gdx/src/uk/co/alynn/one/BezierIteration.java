@@ -6,7 +6,7 @@ import uk.co.alynn.one.world.Segment;
 
 public class BezierIteration{
 
-    public static void bezierIteration(float [] points , int iterations){
+    public static void bezierIteration(double [] points , int iterations){
         int i = 0;
         while (i < iterations){
         	int step = ((int)Math.pow(2,i));
@@ -18,7 +18,7 @@ public class BezierIteration{
         }
     }
     
-    public static void bezierStep(float [] points, int st, int it){
+    public static void bezierStep(double [] points, int st, int it){
     // st: which step of current iteration, counting down
     // it: which iteration, counting up
     // points originally contains coordinates for four bezier points
@@ -35,16 +35,33 @@ public class BezierIteration{
     	points[ofs + 3] = (points[ofs + 2] + points[ofs + 4])/2;  	// final result point 3
     }
     
-    public static void coordinatesToSegments(float [] x, float [] y, Segment [] s){
+    public static void coordinatesToSegments(double [] x, double [] y, Segment [] s){
     	// calculates segments from coordinates
     	// s[0] : segment that connects coordinate 0 and coordinate 1
+    	// segment angle: angle between this element and the next
     	// last element: segment that connects last coordinate with coordinate 0
-    	int counter = x.length;
+    	int counter = x.length - 1;
+    	counter = 3;
+    	double sAngle = 0;
+    	double sLength = 1;
+    	double [] v1 = new double [2], v2 = new double [2];
+    	double cosAngle;
+    	
 
-    	// calculate last segment: 
+    	// calculate last segment
+    	sLength = Math.sqrt((Math.pow(2,(x[counter]-x[0])) + Math.pow(2,(x[counter]-x[0]))));
+    	v1[0] = x[0] - x[counter];
+    	v1[1] = y[0] - y[counter];
+    	v2[0] = x[counter] - x[counter-1];
+    	v2[1] = y[counter] - y[counter-1];
+    	cosAngle = (v1[0]*v2[0] + v1[1]*v2[1])/( Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]) + Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]) );		
+    	sAngle = Math.toDegrees(Math.acos(cosAngle));
+    	String test = "angle:" + sAngle;
+        System.out.println(test);
+    	s[counter] = new Segment(sAngle, sLength);
     	while (counter > 0){
-    		// calculate segments
     		counter = counter - 1;
+    		// calculate segments
     	}
     }
 
