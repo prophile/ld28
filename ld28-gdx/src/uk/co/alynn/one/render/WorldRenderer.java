@@ -45,7 +45,8 @@ public class WorldRenderer {
 
     private void renderCharacter() {
         TextureRegion rg = _request.getTextureManager().getTexture("temp");
-        setTransform(melon(_world.getPlayer().getPosition()));
+        Position playerPosition = _world.getPlayer().getPosition();
+        setTransform(melon(playerPosition));
         _request.getBatch().begin();
         _request.getBatch().draw(rg, 0.0f, 20.0f);
         _request.getBatch().end();
@@ -83,6 +84,7 @@ public class WorldRenderer {
         int segmentRange = _request.getConstants().getInt("segment-range", 3,
                 "Segments to draw outside of the current segment.");
         Matrix3 transformation = getBaseTransform();
+        transformInversion(transformation);
         startSegmentRender();
         drawForwardSegments(firstSegment, segmentRange, transformation);
         drawReverseSegments(firstSegment, segmentRange, transformation);
@@ -116,7 +118,7 @@ public class WorldRenderer {
                 base.translate(-(float) _world.getSegment(i).getLength(), 0.0f);
             }
         }
-        if (pos.getSide() != playerPosition.getSide()) {
+        if (pos.getSide() != _world.getPlayer().getPosition().getSide()) {
             base.scale(1.0f, -1.0f);
         }
         base.translate((float) pos.getPosition(), 0.0f);
@@ -159,7 +161,6 @@ public class WorldRenderer {
         Matrix3 transformation = new Matrix3().translate(240.0f, 160.0f);
         float d = (float) _world.getPlayer().getPosition().getPosition();
         transformation.translate(-d, 0.0f);
-        transformInversion(transformation);
         return transformation;
     }
 
