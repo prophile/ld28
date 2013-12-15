@@ -34,4 +34,8 @@ public final class World {
         }
         return _segments.get(index % size);
     }
+
+    void attachNumber(Number n) {
+        _numbers.add(n);
+    }
 }
