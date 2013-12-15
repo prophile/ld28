@@ -2,6 +2,7 @@ package uk.co.alynn.one.render;
 
 import uk.co.alynn.one.world.World;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Matrix3;
@@ -21,11 +22,20 @@ public class WorldRenderer {
     public void renderWorld() {
         renderBackground();
         renderSegments();
+        renderCharacter();
         _shapeRenderer.dispose();
     }
 
     private void renderBackground() {
 
+    }
+
+    private void renderCharacter() {
+        Sprite sprite = new Sprite(_request.getTextureManager().getTexture(
+                "temp"));
+        sprite.setPosition(220.0f, 160.0f);
+        sprite.setOrigin(sprite.getWidth() * 0.5f, sprite.getHeight() * 0.5f);
+        sprite.draw(_request.getBatch());
     }
 
     private void drawSegment(double len, Matrix3 transformation) {
