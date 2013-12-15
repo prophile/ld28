@@ -26,4 +26,9 @@ public final class Constants {
         String value = rawGet(key, comment);
         return value != null ? Double.parseDouble(value) : dfl;
     }
+
+    public int getInt(String key, int dfl, String comment) {
+        String value = rawGet(key, comment);
+        return value != null ? Integer.parseInt(value) : dfl;
+    }
 }
