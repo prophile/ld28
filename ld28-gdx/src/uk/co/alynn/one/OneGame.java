@@ -29,41 +29,91 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void create() {
+        loadConstants();
+        setup();
+        generateWorld();
+    }
+
+    private void setup() {
+        setupTextureManager();
+        setupInput();
+        setupGraphics();
+    }
+
+    private void setupGraphics() {
+        setupCamera();
+        setupSpriteBatch();
+    }
+
+    private void setupSpriteBatch() {
+        _batch = new SpriteBatch();
+    }
+
+    private void setupCamera() {
+        _camera = new OrthographicCamera(1, (float) Gdx.graphics.getHeight()
+                / (float) Gdx.graphics.getWidth());
+    }
+
+    private void setupTextureManager() {
+        _textureManager = new TextureManager();
+    }
+
+    private void loadConstants() {
         ConstantsLoader ldr = new ConstantsLoader(Gdx.files.internal(
                 "data/constants.txt").reader());
         _constants = ldr.load();
+    }
 
-        _textureManager = new TextureManager();
-
+    private void setupInput() {
         _inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(_inputHandler);
 
+        bindKeys();
+    }
+
+    private void bindKeys() {
+        bindFlipKey();
+    }
+
+    private void bindFlipKey() {
         _inputHandler.bind("62", new Runnable() {
             @Override
             public void run() {
                 _actionQueue.queueFlip();
             }
         });
+    }
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+    private void generateWorld() {
+        createWorldObject();
+        loadWorldNumbers();
+    }
 
-        _camera = new OrthographicCamera(1, h / w);
-        _batch = new SpriteBatch();
+    private void createWorldObject() {
+        _world = new World(generateWorldSegments());
+    }
 
+    private void loadWorldNumbers() {
+        try {
+            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
+                    .reader(512));
+        } catch (IOException e) {
+            handleNumberLoadError(e);
+        }
+    }
+
+    private void handleNumberLoadError(IOException e) {
+        e.printStackTrace();
+        throw new RuntimeException("Failed to load number data.");
+    }
+
+    private List<Segment> generateWorldSegments() {
         List<Segment> segs = new ArrayList<Segment>();
         int len = 30;
         for (int i = 0; i < len; ++i) {
             segs.add(new Segment(30.0, Angle.degrees(90.0 / len)));
         }
-        _world = new World(segs);
-        try {
-            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
-                    .reader(512));
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to load number data.");
-        }
+        return segs;
     }
 
     @Override
@@ -73,21 +123,35 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void render() {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+        clearScreen();
+        drawWorld();
+        updateWorld();
+    }
 
+    private void drawWorld() {
         _batch.setProjectionMatrix(_camera.combined);
         _batch.begin();
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, _batch, _textureManager));
         renderer.renderWorld();
         _batch.end();
+    }
 
+    private void updateWorld() {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
+        emptyActionQueue(up);
+        up.tick();
+    }
+
+    private void emptyActionQueue(WorldUpdater up) {
         if (_actionQueue.popFlip()) {
             up.doFlip();
         }
-        up.tick();
+    }
+
+    private void clearScreen() {
+        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
