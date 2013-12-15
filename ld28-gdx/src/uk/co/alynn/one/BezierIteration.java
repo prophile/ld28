@@ -25,9 +25,8 @@ public class BezierIteration{
     // these are replaced with the 7 points describing the replacing two bezier curves
         int data = st*3; // where the data comes from
         int ofs = data*2; // where the new datapoints go
-		String tester = "la" + ofs;
-		System.out.println(tester);
-    	points[ofs + 6] = points[data + 3];					// final result point 6
+
+    	points[ofs + 6] = points[data + 3];							// final result point 6
     	points[ofs + 5] = (points[data + 6] + points[data + 2])/2;  // final result point 5
     	points[ofs + 3] = (points[data + 1] + points[data + 2])/2;  // intermediate result
     	points[ofs + 1] = (points[data + 0] + points[data + 1])/2;  // final result point 1
