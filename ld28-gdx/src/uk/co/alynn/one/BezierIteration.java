@@ -40,8 +40,9 @@ public class BezierIteration{
     	// s[0] : segment that connects coordinate 0 and coordinate 1
     	// segment angle: angle between this element and the next
     	// last element: segment that connects last coordinate with coordinate 0
-    	int counter = x.length - 1;
-    	counter = 3;
+    	int elements = x.length - 1;
+    	elements = 3;
+    	int counter = elements;
     	double sAngle = 0;
     	double sLength = 1;
     	double [] v1 = new double [2], v2 = new double [2];
@@ -54,30 +55,40 @@ public class BezierIteration{
     	v2[0] = x[counter] - x[counter-1];
     	v2[1] = y[counter] - y[counter-1];
     	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-    	String test = "angle:" + sAngle + sLength;
-    	System.out.println(test);
     	
     	s[counter] = new Segment(sAngle, sLength);
+
+    	// calculate other segments
     	while (counter > 0){
     		counter = counter - 1;
-    		// calculate segments
+    		// calculate length
     		sLength = Math.sqrt((Math.pow((x[counter]-x[counter + 1]), 2) + Math.pow((y[counter]-y[counter + 1]), 2)));
     		
+    		// calculate angle
     		if (counter == 0){
+            	v1[0] = x[counter + 1] - x[counter];
+            	v1[1] = y[counter + 1] - y[counter];
+            	v2[0] = x[counter] - x[elements];   // use the last element
+            	v2[1] = y[counter] - y[elements];   // use the last element
+            	sAngle = BezierIteration.vectorsToAngle(v1, v2);
+        		String test = "angletest " + sAngle;
+                System.out.println(test);
     			
     		}else{
-        	v1[0] = x[counter + 1] - x[counter];
-        	v1[1] = y[counter + 1] - y[counter];
-        	v2[0] = x[counter] - x[counter-1];
-        	v2[1] = y[counter] - y[counter-1];
-        	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-        	test = "angle:" + sAngle + sLength;
-        	System.out.println(test);
+    			v1[0] = x[counter + 1] - x[counter];
+    			v1[1] = y[counter + 1] - y[counter];
+    			v2[0] = x[counter] - x[counter-1];
+    			v2[1] = y[counter] - y[counter-1];
+    			sAngle = BezierIteration.vectorsToAngle(v1, v2);
+        		String test = "angletest " + sAngle;
+                System.out.println(test);
     		}
+        	s[counter] = new Segment(sAngle, sLength);
     	}
     }
 
     public static double vectorsToAngle(double [] v1, double [] v2){
+    	// calculate the angle between two vectors
        	double sAngle = 0;
     	double cosAngle;
     	cosAngle = (v1[0]*v2[0] + v1[1]*v2[1])/( Math.sqrt(v1[0]*v1[0] + v1[1]*v1[1]) + Math.sqrt(v2[0]*v2[0] + v2[1]*v2[1]) );		
