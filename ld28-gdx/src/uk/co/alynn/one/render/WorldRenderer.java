@@ -43,7 +43,6 @@ public class WorldRenderer {
         Vector2 right = new Vector2((float) len, 0.0f);
         left.mul(transformation);
         right.mul(transformation);
-        System.out.println(left + ":" + right);
         _shapeRenderer.line(left.x, left.y, right.x, right.y);
     }
 
