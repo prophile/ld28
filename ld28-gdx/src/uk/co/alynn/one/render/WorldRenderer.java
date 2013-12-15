@@ -47,8 +47,20 @@ public class WorldRenderer {
         _shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
         _shapeRenderer.begin(ShapeType.Line);
         float d = (float) _world.getPlayer().getPosition().getPosition();
-        drawSegment(_world.getSegment(firstSegment).getLength(), new Matrix3(
-                transformation).translate(-d, 0.0f));
+        Matrix3 forwardTransformation = new Matrix3(transformation);
+        forwardTransformation.translate(-d, 0.0f);
+        drawSegment(_world.getSegment(firstSegment).getLength(),
+                forwardTransformation);
+        // draw segments forward
+        for (int i = 0; i < segmentRange; ++i) {
+            int activeSegment = firstSegment + i;
+            forwardTransformation.translate(
+                    (float) _world.getSegment(activeSegment).getLength(), 0.0f);
+            forwardTransformation.rotate((float) _world.getSegment(
+                    activeSegment + 1).getAngle());
+            drawSegment(_world.getSegment(activeSegment + 1).getLength(),
+                    forwardTransformation);
+        }
         _shapeRenderer.end();
     }
 }
