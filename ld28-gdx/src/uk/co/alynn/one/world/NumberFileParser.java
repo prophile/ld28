@@ -54,6 +54,7 @@ final class NumberFileParser {
         int value = Integer.parseInt(match.group(1));
         double pos = Double.parseDouble(match.group(2));
         Side side = interpretSide(match.group(3));
+        System.out.println("Match " + value + " " + pos + " " + side);
         _generator.addNumber(value, pos, side);
     }
 
