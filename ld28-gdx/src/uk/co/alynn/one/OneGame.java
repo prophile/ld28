@@ -24,6 +24,7 @@ public class OneGame implements ApplicationListener {
     private World world;
     private TextureManager textureManager;
     private InputHandler inputHandler;
+    private boolean flipQueued = false;
 
     @Override
     public void create() {
@@ -35,6 +36,13 @@ public class OneGame implements ApplicationListener {
 
         inputHandler = new InputHandler();
         Gdx.input.setInputProcessor(inputHandler);
+
+        inputHandler.bind("62", new Runnable() {
+            @Override
+            public void run() {
+                flipQueued = true;
+            }
+        });
 
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
@@ -68,6 +76,10 @@ public class OneGame implements ApplicationListener {
         batch.end();
 
         WorldUpdater up = new WorldUpdater(world, constants, 1 / 30.0);
+        if (flipQueued) {
+            up.doFlip();
+            flipQueued = false;
+        }
         up.tick();
     }
 

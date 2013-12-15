@@ -21,6 +21,26 @@ public final class WorldUpdater {
         return _dt;
     }
 
+    public void doFlip() {
+        Player player = _world.getPlayer();
+        Position oldPosition = player.getPosition();
+        Position newPosition = new Position(oldPosition.getSegmentIndex(),
+                oldPosition.getPosition(), otherSide(oldPosition.getSide()));
+        player.setPosition(newPosition);
+        System.err.println("wup");
+    }
+
+    private static Side otherSide(Side x) {
+        switch (x) {
+        case SIDE_A:
+            return Side.SIDE_B;
+        case SIDE_B:
+            return Side.SIDE_A;
+        default:
+            throw new RuntimeException("Non-side encountered.");
+        }
+    }
+
     public void tick() {
         // various tick components
         tickVelocity();
