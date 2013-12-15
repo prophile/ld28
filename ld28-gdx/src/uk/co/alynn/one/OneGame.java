@@ -53,9 +53,10 @@ public class OneGame implements ApplicationListener {
                 "Hello, world!", "Message displayed on program start."));
 
         List<Segment> segs = new ArrayList<Segment>();
-        segs.add(new Segment(100.0, 10.0));
-        segs.add(new Segment(100.0, 30.0));
-        segs.add(new Segment(100.0, 45.0));
+        int len = 30;
+        for (int i = 0; i < len; ++i) {
+            segs.add(new Segment(30.0, 90.0 / len));
+        }
         world = new World(segs);
     }
 
