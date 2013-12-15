@@ -59,11 +59,17 @@ public class BezierIteration{
     	while (counter > 0){
     		counter = counter - 1;
     		// calculate segments
-        	//v1[0] = x[counter + 1] - x[counter];
-        	//v1[1] = y[counter + 1] - y[counter];
-        	//v2[0] = x[counter] - x[counter-1];
-        	//v2[1] = y[counter] - y[counter-1];
+    		sLength = Math.sqrt((Math.pow(2,(x[counter]-x[counter + 1])) + Math.pow(2,(x[counter]-x[counter + 1]))));
     		
+    		if (counter == 0){
+    			
+    		}else{
+        	v1[0] = x[counter + 1] - x[counter];
+        	v1[1] = y[counter + 1] - y[counter];
+        	v2[0] = x[counter] - x[counter-1];
+        	v2[1] = y[counter] - y[counter-1];
+        	sAngle = BezierIteration.vectorsToAngle(v1, v2);
+    		}
     	}
     }
 
