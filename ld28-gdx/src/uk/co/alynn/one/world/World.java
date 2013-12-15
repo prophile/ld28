@@ -1,5 +1,7 @@
 package uk.co.alynn.one.world;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -37,5 +39,14 @@ public final class World {
 
     void attachNumber(Number n) {
         _numbers.add(n);
+    }
+
+    public void attachAllNumbers(BufferedReader source) throws IOException {
+        NumberGenerator gen = new NumberGenerator(this);
+        NumberFileParser parser = new NumberFileParser(gen, source);
+        parser.process();
+        for (Number n : _numbers) {
+            System.out.println(n);
+        }
     }
 }
