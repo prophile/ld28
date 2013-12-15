@@ -13,23 +13,27 @@ public class Main {
 		cfg.height = 320;
 		
 		new LwjglApplication(new OneGame(), cfg);
-		int iterations = 3;
-		int counter = (((int)Math.pow(2,iterations))*3) + 1;
 
 		// example of bezier iteration
 		// should be done for x- and y coordinates
-		String test = "Bezier:";
-		float [] xpoints = new float [counter]; //number of points after iteration
+
+		int iterations = 1;
+		
+
+		int allPoints = (((int)Math.pow(2,iterations))*3) + 1;
+		float [] xpoints = new float [allPoints]; //number of points after iteration
 		xpoints[0] = 0;
 		xpoints[1] = 1;
 		xpoints[2] = 2;
 		xpoints[3] = 3;
-
+		
 		BezierIteration.bezierIteration(xpoints, iterations);
-		System.out.println(test);
-		// TESTING
+
+		// test bezier iteration
+		String test = "Bezier:";
+		int counter = allPoints;
 		while (counter > 0){
-			test = test + " and " + xpoints[counter - 1];
+			test = test + "; " + xpoints[counter - 1];
 			counter = counter - 1;
 		}
         System.out.println(test);
