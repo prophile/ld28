@@ -52,7 +52,7 @@ public class WorldRenderer {
     }
 
     private void renderNumbers() {
-        TextureRegion rg = _request.getTextureManager().getTexture("russia");
+        TextureRegion rg;
         _request.getBatch().begin();
         int rootIndex = _world.getPlayer().getPosition().getSegmentIndex();
         Position leftBound = new Position(rootIndex - 10, 0.0, Side.SIDE_A);
@@ -64,7 +64,8 @@ public class WorldRenderer {
                 continue;
             }
             setTransform(melon(pony.getPosition()));
-            _request.getBatch().draw(rg, 0.0f, 20.0f);
+            rg = _request.getTextureManager().getTexture("" + pony.getValue());
+            _request.getBatch().draw(rg, 0.0f, 20.0f, 64.0f, 64.0f);
         }
         _request.getBatch().end();
     }
