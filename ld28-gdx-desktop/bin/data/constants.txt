@@ -1,4 +1,4 @@
 hello-world=Hello, world! # Hello world message
 speed=100.0 # Speed
-segment-range=3 # Segment draw range
+segment-range=100 # Segment draw range
 
