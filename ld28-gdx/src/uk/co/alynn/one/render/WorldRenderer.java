@@ -67,6 +67,30 @@ public class WorldRenderer {
         _shapeRenderer.begin(ShapeType.Line);
     }
 
+    private Matrix3 melon(Position pos) {
+        Matrix3 base = getBaseTransform();
+        Position playerPosition = _world.getPlayer().getPosition();
+        if (pos.getSide() != playerPosition.getSide()) {
+            base.scale(1.0f, -1.0f);
+        }
+        if (pos.compareTo(playerPosition) > 0) {
+            for (int i = pos.getSegmentIndex(); i < playerPosition
+                    .getSegmentIndex(); ++i) {
+                base.translate((float) _world.getSegment(i).getLength(), 0.0f);
+                base.rotate((float) _world.getSegment(i).getAngle()
+                        .getDegrees());
+            }
+        } else {
+            for (int i = pos.getSegmentIndex(); i > playerPosition
+                    .getSegmentIndex(); --i) {
+                base.rotate(-(float) _world.getSegment(i + 1).getAngle()
+                        .getDegrees());
+                base.translate(-(float) _world.getSegment(i).getLength(), 0.0f);
+            }
+        }
+        return base;
+    }
+
     private void drawReverseSegments(int firstSegment, int segmentRange,
             Matrix3 transformation) {
         Matrix3 reverseTransformation = new Matrix3(transformation);
