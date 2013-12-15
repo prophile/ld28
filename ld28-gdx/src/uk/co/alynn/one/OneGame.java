@@ -54,7 +54,7 @@ public class OneGame implements ApplicationListener {
         List<Segment> segs = new ArrayList<Segment>();
         int len = 30;
         for (int i = 0; i < len; ++i) {
-            segs.add(new Segment(30.0, 90.0 / len));
+            segs.add(new Segment(30.0, Angle.degrees(90.0 / len)));
         }
         world = new World(segs);
         try {

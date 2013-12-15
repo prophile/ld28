@@ -72,8 +72,8 @@ public class WorldRenderer {
         Matrix3 reverseTransformation = new Matrix3(transformation);
         for (int i = 0; i < segmentRange; ++i) {
             int activeSegment = firstSegment - i;
-            reverseTransformation.rotate(-(float) _world.getSegment(
-                    activeSegment + 1).getAngle());
+            reverseTransformation.rotate(-(float) _world
+                    .getSegment(activeSegment + 1).getAngle().getDegrees());
             reverseTransformation
                     .translate(-(float) _world.getSegment(activeSegment)
                             .getLength(), 0.0f);
@@ -92,8 +92,8 @@ public class WorldRenderer {
             int activeSegment = firstSegment + i;
             forwardTransformation.translate(
                     (float) _world.getSegment(activeSegment).getLength(), 0.0f);
-            forwardTransformation.rotate((float) _world.getSegment(
-                    activeSegment + 1).getAngle());
+            forwardTransformation.rotate((float) _world
+                    .getSegment(activeSegment + 1).getAngle().getDegrees());
             drawSegment(_world.getSegment(activeSegment + 1).getLength(),
                     forwardTransformation);
         }

@@ -1,15 +1,17 @@
 package uk.co.alynn.one.world;
 
+import uk.co.alynn.one.Angle;
+
 public final class Segment {
-    private final double _angle;
+    private final Angle _angle;
     private final double _length;
 
-    public Segment(double len, double angle) {
+    public Segment(double len, Angle angle) {
         _angle = angle;
         _length = len;
     }
 
-    public double getAngle() {
+    public Angle getAngle() {
         return _angle;
     }
 
