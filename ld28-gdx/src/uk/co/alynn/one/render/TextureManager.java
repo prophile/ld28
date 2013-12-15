@@ -8,7 +8,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-final class TextureManager {
+final public class TextureManager {
     private final Map<String, TextureRegion> _regionCache;
 
     public TextureManager() {
