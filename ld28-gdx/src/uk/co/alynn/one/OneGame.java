@@ -23,6 +23,7 @@ public class OneGame implements ApplicationListener {
     private Texture texture;
     private Sprite sprite;
     private Constants constants;
+    private World world;
 
     @Override
     public void create() {
@@ -49,20 +50,11 @@ public class OneGame implements ApplicationListener {
         System.out.println(constants.getString("hello-message",
                 "Hello, world!", "Message displayed on program start."));
 
-        testWorld();
-    }
-
-    private void testWorld() {
         List<Segment> segs = new ArrayList<Segment>();
-        segs.add(new Segment(1.0, 0.0));
-        segs.add(new Segment(1.0, 0.0));
-        segs.add(new Segment(1.0, 0.0));
-        World w = new World(segs);
-        for (int i = 0; i < 60; ++i) {
-            WorldUpdater up = new WorldUpdater(w, constants, 1.0 / 60.0);
-            up.tick();
-            System.out.println(w.getPlayer().getPosition());
-        }
+        segs.add(new Segment(100.0, 0.0));
+        segs.add(new Segment(100.0, 0.0));
+        segs.add(new Segment(100.0, 0.0));
+        world = new World(segs);
     }
 
     @Override
@@ -80,6 +72,9 @@ public class OneGame implements ApplicationListener {
         batch.begin();
         sprite.draw(batch);
         batch.end();
+
+        WorldUpdater up = new WorldUpdater(world, constants, 1 / 30.0);
+        up.tick();
     }
 
     @Override
