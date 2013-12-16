@@ -8,6 +8,7 @@ public final class WorldUpdater {
     private final World _world;
     private final Constants _constants;
     private final double _dt;
+    private boolean _scoredPoint = false;
 
     public WorldUpdater(World w, Constants k, double dt) {
         _world = w;
@@ -46,6 +47,21 @@ public final class WorldUpdater {
     public void tick() throws GameOverException {
         // various tick components
         tickVelocity();
+        tickNumberReload();
+    }
+
+    public void tickNumberReload() {
+        if (shouldReloadNumbers()) {
+            reloadNumbers();
+        }
+    }
+
+    private boolean shouldReloadNumbers() {
+        return _world.getPlayer().getScore() > 2 && _scoredPoint;
+    }
+
+    private void reloadNumbers() {
+        ObstacleLoader.loadObstacles(_world, "numbers");
     }
 
     private void tickVelocity() throws GameOverException {
@@ -105,6 +121,7 @@ public final class WorldUpdater {
         // do something
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
+        _scoredPoint = true;
     }
 
     private void experienceObstacle(Obstacle num) throws GameOverException {
