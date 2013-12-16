@@ -22,7 +22,8 @@ public final class GameModeReady implements GameMode {
     public GameMode step(ActionQueue aq) {
         if (aq.popFlip()) {
             return new GameModeLive(_constants,
-                    LevelGenerator.generateLevel(_constants));
+                    LevelGenerator.generateLevel(_constants),
+                    LevelGenerator.defaultColourScheme());
         } else {
             return this;
         }

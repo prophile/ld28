@@ -1,6 +1,7 @@
 package uk.co.alynn.one.gamemode;
 
 import uk.co.alynn.one.ActionQueue;
+import uk.co.alynn.one.ColourScheme;
 import uk.co.alynn.one.Constants;
 import uk.co.alynn.one.render.FXManager;
 import uk.co.alynn.one.render.RenderRequest;
@@ -20,12 +21,14 @@ public class GameModeLive implements GameMode {
     private final Constants _constants;
     private final FXManager _fxManager;
     private int gameOverCounter = -1;
+    private final ColourScheme _colScheme;
 
-    public GameModeLive(Constants ks, Level lvl) {
+    public GameModeLive(Constants ks, Level lvl, ColourScheme scheme) {
         _world = new World(lvl);
         ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
         _fxManager = new FXManager();
+        _colScheme = scheme;
     }
 
     @Override
@@ -67,7 +70,7 @@ public class GameModeLive implements GameMode {
         // TODO Auto-generated method stub
         batch.setTransformMatrix(new Matrix4());
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
-                _constants, batch, txman), gameOverCounter < 0);
+                _constants, batch, txman, _colScheme), gameOverCounter < 0);
         renderer.renderWorld(_fxManager);
     }
 
