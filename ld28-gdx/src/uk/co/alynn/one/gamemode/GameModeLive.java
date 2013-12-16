@@ -47,7 +47,7 @@ public class GameModeLive implements GameMode {
         if (runOneTick(up)) {
             return this;
         } else {
-            return new GameModeDead();
+            return new GameModeDead(_constants);
         }
     }
 

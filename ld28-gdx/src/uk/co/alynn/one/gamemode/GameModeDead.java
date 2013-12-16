@@ -1,7 +1,9 @@
 package uk.co.alynn.one.gamemode;
 
 import uk.co.alynn.one.ActionQueue;
+import uk.co.alynn.one.Constants;
 import uk.co.alynn.one.render.TextureManager;
+import uk.co.alynn.one.world.CircleLevel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -11,9 +13,19 @@ import com.badlogic.gdx.math.Matrix4;
 
 public class GameModeDead implements GameMode {
 
+    private final Constants _constants;
+
+    public GameModeDead(Constants k) {
+        _constants = k;
+    }
+
     @Override
     public GameMode step(ActionQueue aq) {
-        return this;
+        if (aq.popFlip()) {
+            return new GameModeLive(_constants, new CircleLevel(1400.0f));
+        } else {
+            return this;
+        }
     }
 
     @Override
