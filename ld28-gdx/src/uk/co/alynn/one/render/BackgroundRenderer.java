@@ -20,7 +20,6 @@ public final class BackgroundRenderer {
         elements.add(new BackgroundElement("Circle", rng));
         elements.add(new BackgroundElement("Triangle", rng));
         elements.add(new BackgroundElement("Square", rng));
-
     }
 
     public static void renderBackground(WorldRenderer worldRenderer) {
