@@ -23,6 +23,10 @@ public class InputHandler implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
         String key = mappedKey(keycode);
+        return runBinding(key);
+    }
+
+    private boolean runBinding(String key) {
         Runnable target = _bindings.get(key);
         System.err.println(key);
         if (target != null) {
@@ -47,8 +51,7 @@ public class InputHandler implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // ignore
-        return false;
+        return runBinding("click");
     }
 
     @Override

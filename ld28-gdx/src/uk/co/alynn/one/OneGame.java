@@ -83,6 +83,12 @@ public class OneGame implements ApplicationListener {
                 _actionQueue.queueFlip();
             }
         });
+        _inputHandler.bind("click", new Runnable() {
+            @Override
+            public void run() {
+                _actionQueue.queueFlip();
+            }
+        });
     }
 
     @Override
