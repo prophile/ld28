@@ -11,6 +11,7 @@ public class Main {
         cfg.width = 800;
         cfg.height = 600;
         cfg.resizable = true;
+        cfg.samples = 4;
 
         new LwjglApplication(new OneGame(), cfg);
 
