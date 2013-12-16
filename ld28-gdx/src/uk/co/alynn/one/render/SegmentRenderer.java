@@ -1,9 +1,9 @@
 package uk.co.alynn.one.render;
 
+import uk.co.alynn.one.ColourScheme;
 import uk.co.alynn.one.world.level.Level;
 import uk.co.alynn.one.world.level.LevelUtil;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +13,8 @@ final class SegmentRenderer {
         final int SEGMENTS = 4000;
         final double EPSILON = 1.0 / SEGMENTS;
         worldRenderer.setUnitTransform();
-        startSegmentRender(worldRenderer.getShapeRenderer());
+        startSegmentRender(worldRenderer.getRequest().getColourScheme(),
+                worldRenderer.getShapeRenderer());
         renderAllSegments(
                 worldRenderer.getWorld().getLevel(),
                 worldRenderer.getShapeRenderer(),
@@ -49,8 +50,9 @@ final class SegmentRenderer {
         shapeRenderer.end();
     }
 
-    static void startSegmentRender(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.WHITE);
+    static void startSegmentRender(ColourScheme scheme,
+            ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(scheme.getTrack());
         shapeRenderer.begin(ShapeType.FilledTriangle);
     }
 }
