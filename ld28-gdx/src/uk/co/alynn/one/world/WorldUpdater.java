@@ -36,6 +36,7 @@ public final class WorldUpdater {
                 otherSide(oldPosition.getSide()));
         player.setPosition(newPosition);
         System.err.println("wup");
+        SoundManager.playSound("Switch_side");
     }
 
     private static Side otherSide(Side x) {
