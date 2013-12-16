@@ -26,13 +26,22 @@ public class WorldRenderer {
         _shapeRenderer = new ShapeRenderer();
     }
 
-    public void renderWorld() {
+    public void renderWorld(FXManager fxm) {
         renderBackground();
         renderSegments();
+        renderEffects(fxm);
         renderCharacter();
         renderObstacles();
         renderScore();
         _shapeRenderer.dispose();
+    }
+
+    private void renderEffects(FXManager fxm) {
+        setUnitTransform();
+        SpriteBatch batch = _request.getBatch();
+        batch.begin();
+        fxm.render(batch);
+        batch.end();
     }
 
     private void renderScore() {

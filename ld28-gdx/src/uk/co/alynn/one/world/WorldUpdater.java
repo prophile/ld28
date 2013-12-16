@@ -3,6 +3,9 @@ package uk.co.alynn.one.world;
 import java.util.Iterator;
 
 import uk.co.alynn.one.Constants;
+import uk.co.alynn.one.render.FXManager;
+
+import com.badlogic.gdx.math.Vector2;
 
 public final class WorldUpdater {
     private final World _world;
@@ -44,9 +47,9 @@ public final class WorldUpdater {
         }
     }
 
-    public void tick() throws GameOverException {
+    public void tick(FXManager _fxManager) throws GameOverException {
         // various tick components
-        tickVelocity();
+        tickVelocity(_fxManager);
         tickNumberReload();
     }
 
@@ -77,9 +80,9 @@ public final class WorldUpdater {
         ObstacleLoader.loadObstacles(_world, "numbers", true);
     }
 
-    private void tickVelocity() throws GameOverException {
+    private void tickVelocity(FXManager fxm) throws GameOverException {
         double dx = playerSpeed() * _dt;
-        tickMovement(dx);
+        tickMovement(dx, fxm);
     }
 
     private double playerSpeed() {
@@ -93,22 +96,23 @@ public final class WorldUpdater {
         return new Position(pos.getT() + dx, pos.getSide());
     }
 
-    private void tickMovement(double dx) throws GameOverException {
+    private void tickMovement(double dx, FXManager fxm)
+            throws GameOverException {
         Player player = _world.getPlayer();
         Position oldPosition = player.getPosition();
         Position newPosition = advancePosition(oldPosition, dx);
-        collisionsInRange(oldPosition.getT(), newPosition.getT());
+        collisionsInRange(oldPosition.getT(), newPosition.getT(), fxm);
         player.setPosition(newPosition);
     }
 
-    private void collisionsInRange(double oldPos, double newPos)
+    private void collisionsInRange(double oldPos, double newPos, FXManager fxm)
             throws GameOverException {
         Iterator<Obstacle> numbers = _world.obstaclesBetween(oldPos, newPos);
         int countHit = 0;
         while (numbers.hasNext()) {
             ++countHit;
             Obstacle activeNumber = numbers.next();
-            collideWithObstacle(activeNumber);
+            collideWithObstacle(activeNumber, fxm);
         }
         if (countHit > 0) {
             System.err.println("Hit " + countHit + " numbers between " + oldPos
@@ -116,29 +120,33 @@ public final class WorldUpdater {
         }
     }
 
-    private void collideWithObstacle(Obstacle num) throws GameOverException {
+    private void collideWithObstacle(Obstacle num, FXManager fxm)
+            throws GameOverException {
         if (num.isPhantom()) {
             return;
         }
         if (num.getPosition().getSide() == _world.getPlayer().getPosition()
                 .getSide()) {
-            hitObstacle(num);
+            hitObstacle(num, fxm);
         } else {
             passObstacle(num);
         }
     }
 
-    private void hitObstacle(Obstacle num) throws GameOverException {
+    private void hitObstacle(Obstacle num, FXManager fxm)
+            throws GameOverException {
         int value = num.getValue();
         if (value == 1) {
-            collectObstacle(num);
+            collectObstacle(num, fxm);
         } else {
             experienceObstacle(num);
         }
     }
 
-    private void collectObstacle(Obstacle num) {
+    private void collectObstacle(Obstacle num, FXManager fxm) {
         // do something
+        Vector2 eyes = _world.getLevel().f(num.getPosition().getT());
+        fxm.poof1(eyes.x, eyes.y);
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
         _scoredPoint = true;

@@ -2,6 +2,7 @@ package uk.co.alynn.one.gamemode;
 
 import uk.co.alynn.one.ActionQueue;
 import uk.co.alynn.one.Constants;
+import uk.co.alynn.one.render.FXManager;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
@@ -17,17 +18,20 @@ import com.badlogic.gdx.math.Matrix4;
 public class GameModeLive implements GameMode {
     private final World _world;
     private final Constants _constants;
+    private final FXManager _fxManager;
 
     public GameModeLive(Constants ks, Level lvl) {
         _world = new World(lvl);
         ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
+        _fxManager = new FXManager();
     }
 
     @Override
     public GameMode step(ActionQueue aq) {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
         emptyActionQueue(aq, up);
+        _fxManager.update();
         if (runOneTick(up)) {
             return this;
         } else {
@@ -37,7 +41,7 @@ public class GameModeLive implements GameMode {
 
     private boolean runOneTick(WorldUpdater up) {
         try {
-            up.tick();
+            up.tick(_fxManager);
             return true;
         } catch (GameOverException go) {
             System.err.println("GAME OVER MAN");
@@ -57,7 +61,7 @@ public class GameModeLive implements GameMode {
         batch.setTransformMatrix(new Matrix4());
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, batch, txman));
-        renderer.renderWorld();
+        renderer.renderWorld(_fxManager);
     }
 
 }
