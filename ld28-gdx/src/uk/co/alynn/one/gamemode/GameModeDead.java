@@ -55,4 +55,9 @@ public class GameModeDead implements GameMode {
         batch.end();
     }
 
+    @Override
+    public boolean usesBloom() {
+        return false;
+    }
+
 }

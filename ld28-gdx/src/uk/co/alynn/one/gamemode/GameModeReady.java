@@ -39,4 +39,9 @@ public final class GameModeReady implements GameMode {
         batch.draw(rg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
+
+    @Override
+    public boolean usesBloom() {
+        return false;
+    }
 }

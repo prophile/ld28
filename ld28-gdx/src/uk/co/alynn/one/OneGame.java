@@ -23,10 +23,19 @@ public class OneGame implements ApplicationListener {
     public void create() {
         _bloom = new Bloom(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
                 false, false, true);
-        _bloom.setBloomIntesity(0.8f);
+
         loadConstants();
         setup();
         _gameMode = new GameModeReady(_constants);
+        setBloomParams();
+    }
+
+    private void setBloomParams() {
+        if (_gameMode.usesBloom()) {
+            _bloom.setBloomIntesity(0.8f);
+        } else {
+            _bloom.setBloomIntesity(0.0f);
+        }
     }
 
     private void setup() {
@@ -80,6 +89,7 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void render() {
+        setBloomParams();
         _bloom.capture();
         _gameMode = _gameMode.step(_actionQueue);
         _gameMode.render(_textureManager, _batch);

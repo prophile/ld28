@@ -90,4 +90,9 @@ public class GameModeLive implements GameMode {
         renderer.renderWorld(_fxManager);
     }
 
+    @Override
+    public boolean usesBloom() {
+        return true;
+    }
+
 }
