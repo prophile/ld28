@@ -1,5 +1,5 @@
 #!/bin/bash
-rm ld28-gdx.zip
+rm -f one.zip
 dir=`mktemp -d lolwatXXXXXX`
 curdir=`pwd`
 echo $dir
