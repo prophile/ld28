@@ -2,8 +2,12 @@ package uk.co.alynn.one;
 
 import java.lang.Math;
 import java.util.List;
+import java.util.Map;
+
+import com.badlogic.gdx.math.Vector2;
 
 import uk.co.alynn.one.world.Segment;
+import uk.co.alynn.one.Constants;
 
 public class BezierIteration{
     public static void discretize(int iterations, double [] xraw, double [] yraw, double [] x, double [] y, Segment [] s){
@@ -111,7 +115,7 @@ public class BezierIteration{
     	s[counter] = new Segment(sLength, sAngle);
 
     	// calculate other segments
-    	while (counter > 0){
+    	while (counter > 1){
     		counter = counter - 1;
     		// calculate length
     		sLength = Math.sqrt((Math.pow((x[counter]-x[counter + 1]), 2) + Math.pow((y[counter]-y[counter + 1]), 2)));
@@ -168,11 +172,20 @@ public class BezierIteration{
         	counter = counter + 1;
         }
     }
-    public static void getBezier(List<Segment> segs){
-       	int iterations = 10; //CONST
-    	//double [] raw = {198.57143,160.93361,282.46108,127.35369,375.20155,165.64481,443.56866,215.98559,539.53351,296.97239,607.52749,408.148,649.07752,525.81327,678.46103,614.17421,685.99116,720.94964,628.60835,799.89974,541.87499,893.57105,432.06845,970.44717,307.72539,1003.8069,236.53765,1019.4626,162.18528,1026.8587,89.638477,1017.4731,48.560539,1016.2444,7.6696351,976.77886,32.811086,935.2938,69.201426,862.29636,135.27584,810.11501,195.70156,757.67071,253.83284,708.79976,316.61348,665.90868,378.06353,621.52068,414.39548,593.26798,442.51098,540.97581,417.62273,496.44847,376.16081,424.88181,291.76661,400.46169,222.5844,364.80847,179.7191,340.50379,126.13323,310.46498,119.94395,256.47023,119.49404,210.87578,162.12378,179.9799,198.57143,160.93361};
-    	double [] raw = {0,0,1000,0,1000,1000,0,1000}; //CONST
-    	int inLength = raw.length/2;
+    public static void getBezier(List<Vector2> segs, Constants constants){
+       	//int iterations = 10; //CONST
+       	int iterations = constants.getInt("iterations", 3, "Segments to draw outside of the current segment.");
+       	//String lala = Constants.("BezierA");
+       			
+       	//***********test start
+       	//String test = "iterations" + iterations + lala;
+       	//System.out.println(test);
+       	//*******TEST END
+       	
+       	//double [] raw = {198.57143,160.93361,282.46108,127.35369,375.20155,165.64481,443.56866,215.98559,539.53351,296.97239,607.52749,408.148,649.07752,525.81327,678.46103,614.17421,685.99116,720.94964,628.60835,799.89974,541.87499,893.57105,432.06845,970.44717,307.72539,1003.8069,236.53765,1019.4626,162.18528,1026.8587,89.638477,1017.4731,48.560539,1016.2444,7.6696351,976.77886,32.811086,935.2938,69.201426,862.29636,135.27584,810.11501,195.70156,757.67071,253.83284,708.79976,316.61348,665.90868,378.06353,621.52068,414.39548,593.26798,442.51098,540.97581,417.62273,496.44847,376.16081,424.88181,291.76661,400.46169,222.5844,364.80847,179.7191,340.50379,126.13323,310.46498,119.94395,256.47023,119.49404,210.87578,162.12378,179.9799,198.57143,160.93361};
+    	//double [] raw = {0,0,1000,0,1000,1000,0,1000}; //CONST
+    	double [] raw ={194.28571,198.07647,340,329.50504,391.42857,558.07647,237.14286,455.21933,82.857143,352.36218,-51.428571,243.79075,65.714286,218.07647,182.85714,192.36218,194.28571,198.07647,194.28571,198.07647};
+       	int inLength = raw.length/2;
     	double [] xraw = new double[inLength];
     	double [] yraw = new double[inLength];
         int allPoints = (int) Math.pow(2, iterations) * (inLength -1) + 1;
@@ -180,15 +193,15 @@ public class BezierIteration{
                                                   // iteration
         double[] ypoints = new double[allPoints]; // number of points after
                                                   // iteration
-        Segment[] sResult = new Segment[allPoints];
+        //Segment[] sResult = new Segment[allPoints-1];
     	
     	BezierIteration.rawData(raw, xraw, yraw);
 
 
-        BezierIteration.discretize(iterations, xraw, yraw, xpoints, ypoints, sResult);
+        //BezierIteration.discretize(iterations, xraw, yraw, xpoints, ypoints, sResult);
         
         for (int i = 0; i < allPoints; ++i) {
-            segs.add(new Segment(sResult[i].getLength(),sResult[i].getAngle()));
+            segs.add(new Vector2((float)xpoints[i],(float)ypoints[i]));
         }
     }
 
