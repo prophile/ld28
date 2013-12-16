@@ -22,6 +22,6 @@ public final class LevelGenerator {
     public static ColourScheme defaultColourScheme() {
         return new ColourScheme(new Color(0xCC / 255.0f, 0x00 / 255.0f,
                 0xFF / 255.0f, 1.0f), new Color(0x33 / 255.0f, 0x00 / 255.0f,
-                0x66 / 255.0f, 1.0f), Color.WHITE, Color.ORANGE);
+                0x66 / 255.0f, 1.0f), Color.WHITE, Color.WHITE);
     }
 }
