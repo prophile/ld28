@@ -4,6 +4,7 @@ import uk.co.alynn.one.gamemode.GameMode;
 import uk.co.alynn.one.gamemode.GameModeReady;
 import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.TextureManager;
+import bloom.Bloom;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,10 +16,14 @@ public class OneGame implements ApplicationListener {
     private GameMode _gameMode;
     private TextureManager _textureManager;
     private InputHandler _inputHandler;
+    private Bloom _bloom;
     private final ActionQueue _actionQueue = new ActionQueue();
 
     @Override
     public void create() {
+        _bloom = new Bloom(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(),
+                false, false, true);
+        _bloom.setBloomIntesity(0.8f);
         loadConstants();
         setup();
         _gameMode = new GameModeReady(_constants);
@@ -75,8 +80,10 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void render() {
+        _bloom.capture();
         _gameMode = _gameMode.step(_actionQueue);
         _gameMode.render(_textureManager, _batch);
+        _bloom.render();
     }
 
     @Override
@@ -91,4 +98,3 @@ public class OneGame implements ApplicationListener {
     public void resume() {
     }
 }
-
