@@ -103,10 +103,18 @@ public final class WorldUpdater {
     }
 
     private double playerSpeed() {
-        return _constants.getDouble("speed", 0.0, "Forward speed.")
+        return baseSpeed()
                 / _world.getLevel()
                         .fDerivative(_world.getPlayer().getPosition().getT())
                         .len();
+    }
+
+    private double baseSpeed() {
+        return _constants.getDouble("speed", 0.0, "Forward speed.")
+                + _constants.getDouble("speed-increment", 50.0,
+                        "Forward speed increment per level.")
+                * (_world.getPlayer().getScore() / _constants.getInt(
+                        "level-advance", 10, "Points to advance levels."));
     }
 
     private Position advancePosition(Position pos, double dx) {
