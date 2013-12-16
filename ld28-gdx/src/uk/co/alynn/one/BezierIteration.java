@@ -12,20 +12,14 @@ public class BezierIteration{
         int tmpLength = (int) Math.pow(2, iterations) * 3 + 1;
     	double [] xTMP = new double[tmpLength];
     	double [] yTMP = new double[tmpLength];
-    	String test = "iterationStart " + startRaw + iterations;
-        System.out.println(test);
     	
     	while ( startRaw + 3 < xraw.length ){
     		// goes through input coordinates in steps of four
     		
     		// transfer raw data for this step in temporary array
-        	test = "iterationStep " + startRaw + xraw.length;
-            System.out.println(test);
     		i = 0;
     		while (i<4){
-    	    	test = "i " + i + "startRaw" + startRaw;
-    	        System.out.println(test);
-    			xTMP[i] = xraw[startRaw + i];
+     			xTMP[i] = xraw[startRaw + i];
     			yTMP[i] = yraw[startRaw + i];
     			i = i+1;
     		}
@@ -41,16 +35,6 @@ public class BezierIteration{
             	i = i+1;
             }
             
-            //*****TEST
-            int counter = x.length;
-            test = "LOL";
-            while (counter > 0) {
-                test = test + "; x" + x[counter - 1] + ", y"
-                        + y[counter - 1];
-                counter = counter - 1;
-            }
-            System.out.println(test);
-            //TEST OVER
             // calculate Segments from final coordinate arrays
             BezierIteration.coordinatesToSegments(x, y, s);
             
@@ -111,17 +95,17 @@ public class BezierIteration{
     	
     	v1[0] = x[0] - x[counter];
     	v1[1] = y[0] - y[counter];
+       	if ((x[counter] == x[0]) && (y[counter] == y[0])){
+    			// dirty solution
+    		    // if the bezier curve is closed and the start and endpoint are the same
+    			// distance is zero
+    		    // add a small distance in x inbetween them
+    				v1[0] = 0.00000000000000001;
+    			}
     	v2[0] = x[counter] - x[counter-1];
     	v2[1] = y[counter] - y[counter-1];
     	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-    	if (x[counter] == x[0]){
-			// dirty solution
-		    // if the bezier curve is closed and the start and endpoint are the same
-			// distance is zero
-		    // add a small distance at angle 0 inbetween them
-				sLength = 0.00000000000000001;
-				sAngle = 0;	
-			}
+
 
     	s[counter] = new Segment(sLength, sAngle);
 
@@ -133,21 +117,18 @@ public class BezierIteration{
     		
     		// calculate angle
     		if (counter == 0){
-    			if (x[counter] == x[elements]){
-    			// dirty solution
-    		    // if the bezier curve is closed and the start and endpoint are the same
-    			// distance is zero
-    		    // add a small distance at angle 0 inbetween them
-    				sLength = 0.00000000000000001;
-    				sAngle = 0;
-    				
-    			}else{
     				v1[0] = x[counter + 1] - x[counter];
     				v1[1] = y[counter + 1] - y[counter];
     				v2[0] = x[counter] - x[elements];   // use the last element
-    				v2[1] = y[counter] - y[elements];   // use the last element
-    				sAngle = BezierIteration.vectorsToAngle(v1, v2);
-    			}
+    	   			if ((x[counter] == x[elements]) && (y[counter] == y[elements])){
+    	    			// dirty solution
+    	    		    // if the bezier curve is closed and the start and endpoint are the same
+    	    			// distance is zero
+    	    		    // add a small x distance inbetween them
+    	    				v2[0] = 0.00000000000000001;
+    	   			}
+    			v2[1] = y[counter] - y[elements];   // use the last element
+    			sAngle = BezierIteration.vectorsToAngle(v1, v2);
 
     		}else{
     			v1[0] = x[counter + 1] - x[counter];
