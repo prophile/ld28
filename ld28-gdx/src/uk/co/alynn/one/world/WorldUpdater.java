@@ -54,7 +54,7 @@ public final class WorldUpdater {
             throws GameOverException, AdvanceLevelException {
         // various tick components
         tickVelocity(_fxManager);
-        tickNumberReload();
+        tickNumberReload(threshold);
         tickLevelAdvance(threshold);
     }
 
@@ -65,24 +65,21 @@ public final class WorldUpdater {
     }
 
     private void advanceLevel() throws AdvanceLevelException {
-        throw new AdvanceLevelException(_world.getLevel());
+        throw new AdvanceLevelException();
     }
 
     private boolean shouldAdvanceLevel(int threshold) {
         return _scoredPoint && _world.getPlayer().getScore() >= threshold;
     }
 
-    public void tickNumberReload() {
-        if (shouldReloadNumbers()) {
+    public void tickNumberReload(int threshold) {
+        if (shouldReloadNumbers(threshold)) {
             reloadNumbers();
         }
     }
 
-    private boolean shouldReloadNumbers() {
-        return _scoredPoint
-                && getRemainingPoints() < _constants.getInt("reload-threshold",
-                        2,
-                        "Score threshold under which everything is reloaded.");
+    private boolean shouldReloadNumbers(int threshold) {
+        return _world.getPlayer().getScore() + getRemainingPoints() < threshold;
     }
 
     private int getRemainingPoints() {
@@ -176,7 +173,7 @@ public final class WorldUpdater {
 
     private void experienceObstacle(Obstacle num) throws GameOverException {
         SoundManager.playSound("crash_1");
-    	throw new GameOverException();
+        throw new GameOverException();
     }
 
     private Vector2 obstacleFXLocation(Obstacle n, float additionalHeight) {

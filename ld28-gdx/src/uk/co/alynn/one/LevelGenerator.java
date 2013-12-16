@@ -11,9 +11,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
 public final class LevelGenerator {
+    public static LevelProgression defaultLevelProgression(Constants k) {
+        String prog = k.getString("progression", "hourglass",
+                "Level progression.");
+        return new LevelProgression(k, prog);
+    }
+
     public static Level generateLevel(Constants k) {
         List<Vector2> items = new ArrayList<Vector2>();
-        BezierIteration.getBezier(items, k);
+        BezierIteration.getBezier("hourglass", items, k);
         Level baseLevel = new BezierLevel(items);
         Level scaled = new MirrorLevel(baseLevel, 1.0f, 3.0f);
         return scaled;
