@@ -6,12 +6,12 @@ import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 public class WorldRenderer {
     private final RenderRequest _request;
@@ -40,14 +40,25 @@ public class WorldRenderer {
                 height);
     }
 
-    void drawSprite(String sprite, float x, float y) {
+    static final Color NO_TINT = Color.WHITE;
+
+    void drawSprite(String sprite, float x, float y, float targetWidth,
+            Color col) {
         TextureRegion rg = _request.getTextureManager().getTexture(sprite);
         _request.getBatch().begin();
-        _request.getBatch().draw(rg, x - rg.getRegionWidth() / 2.0f,
-                y - rg.getRegionHeight() / 2.0f, rg.getRegionWidth() / 2.0f,
-                rg.getRegionHeight() / 2.0f, rg.getRegionWidth(),
-                rg.getRegionHeight(), 1.0f, 1.0f, 0.0f);
+        _request.getBatch().setColor(col);
+        int regionWidth = rg.getRegionWidth();
+        int regionHeight = rg.getRegionHeight();
+        float ratio = targetWidth / regionWidth;
+        float targetHeight = regionHeight * ratio;
+        _request.getBatch().draw(rg, x - targetWidth / 2.0f,
+                y - targetHeight / 2.0f, regionWidth, regionHeight,
+                targetWidth, targetHeight, ratio, ratio, 0.0f);
         _request.getBatch().end();
+        // _shapeRenderer.begin(ShapeType.Rectangle);
+        // _shapeRenderer.rect(x - targetWidth * 0.5f, y - targetHeight * 0.5f,
+        // targetWidth, targetHeight);
+        // _shapeRenderer.end();
     }
 
     private void renderBackground() {
@@ -69,11 +80,6 @@ public class WorldRenderer {
         Matrix4 tf = coreEyes().mul(pony);
         _request.getBatch().setTransformMatrix(tf);
         _shapeRenderer.setTransformMatrix(tf);
-        // test code
-        Vector2 pp = playerPosition();
-        Vector3 death = new Vector3(pp.x, pp.y, 0.0f);
-        death.mul(tf);
-        System.out.println("Screen pos: " + death);
     }
 
     void setUnitTransform() {

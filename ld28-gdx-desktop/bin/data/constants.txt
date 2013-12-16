@@ -1,3 +1,2 @@
-speed=0.01 # Speed
-segment-range=100 # Segment draw range
+speed=0.025 # Speed
 

@@ -68,9 +68,15 @@ public final class WorldUpdater {
     private void collisionsInRange(double oldPos, double newPos)
             throws GameOverException {
         Iterator<Number> numbers = _world.numbersBetween(oldPos, newPos);
+        int countHit = 0;
         while (numbers.hasNext()) {
+            ++countHit;
             Number activeNumber = numbers.next();
             collideWithNumber(activeNumber);
+        }
+        if (countHit > 0) {
+            System.err.println("Hit " + countHit + " numbers between " + oldPos
+                    + " and " + newPos);
         }
     }
 
@@ -99,7 +105,7 @@ public final class WorldUpdater {
     }
 
     private void experienceNumber(Number num) throws GameOverException {
-        throw new GameOverException();
+        // throw new GameOverException();
     }
 
     private void passNumber(Number num) {

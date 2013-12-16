@@ -50,6 +50,7 @@ public final class World {
     private static abstract class FilterIterator<T> implements Iterator<T> {
         private final Iterator<T> _underlying;
         private T _next;
+        private boolean _initialised = false;
 
         abstract boolean test(T x);
 
@@ -63,13 +64,20 @@ public final class World {
             _next = null;
         }
 
+        private void init() {
+            if (!_initialised) {
+                advance();
+                _initialised = true;
+            }
+        }
+
         public FilterIterator(Iterator<T> underlying) {
             _underlying = underlying;
-            advance();
         }
 
         @Override
         public boolean hasNext() {
+            init();
             return _next != null;
         }
 
@@ -80,6 +88,7 @@ public final class World {
 
         @Override
         public T next() {
+            init();
             T bees = _next;
             advance();
             return bees;
