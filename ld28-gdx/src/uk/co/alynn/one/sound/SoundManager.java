@@ -36,6 +36,7 @@ public final class SoundManager {
         FileHandle handle = Gdx.files.internal(path);
         Music mus = Gdx.audio.newMusic(handle);
         mus.setLooping(true);
+        mus.setVolume(0.4f);
         mus.play();
     }
 }
