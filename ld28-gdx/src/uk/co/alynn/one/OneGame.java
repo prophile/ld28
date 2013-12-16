@@ -14,7 +14,6 @@ import uk.co.alynn.one.world.WorldUpdater;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -112,7 +111,6 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void render() {
-        clearScreen();
         drawWorld();
         updateWorld();
     }
@@ -144,11 +142,6 @@ public class OneGame implements ApplicationListener {
         if (_actionQueue.popFlip()) {
             up.doFlip();
         }
-    }
-
-    private void clearScreen() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     }
 
     @Override

@@ -62,7 +62,7 @@ public class WorldRenderer {
     }
 
     private void renderBackground() {
-
+        BackgroundRenderer.renderBackground(this);
     }
 
     private Matrix4 coreEyes() {
@@ -78,12 +78,20 @@ public class WorldRenderer {
         Matrix4 pony = new Matrix4();
         pony.set(bees);
         Matrix4 tf = coreEyes().mul(pony);
+        setRawTransformMatrix(tf);
+    }
+
+    private void setRawTransformMatrix(Matrix4 tf) {
         _request.getBatch().setTransformMatrix(tf);
         _shapeRenderer.setTransformMatrix(tf);
     }
 
     void setUnitTransform() {
         setTransform(new Matrix3());
+    }
+
+    void setZeroTransform() {
+        setRawTransformMatrix(new Matrix4());
     }
 
     private void renderCharacter() {
