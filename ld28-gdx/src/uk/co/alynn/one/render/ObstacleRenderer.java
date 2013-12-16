@@ -3,26 +3,26 @@ package uk.co.alynn.one.render;
 import java.util.Iterator;
 
 import uk.co.alynn.one.world.LevelUtil;
-import uk.co.alynn.one.world.Number;
+import uk.co.alynn.one.world.Obstacle;
 import uk.co.alynn.one.world.Side;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-final class NumberRenderer {
-    public static void renderNumbers(WorldRenderer worldRenderer) {
-        Iterator<Number> numbers = worldRenderer.getWorld().numbersBetween(0.0,
+final class ObstacleRenderer {
+    public static void renderObstacles(WorldRenderer worldRenderer) {
+        Iterator<Obstacle> obstacles = worldRenderer.getWorld().obstaclesBetween(0.0,
                 1.0);
         worldRenderer.setUnitTransform();
-        while (numbers.hasNext()) {
-            Number num = numbers.next();
-            if (num.isPhantom()) {
+        while (obstacles.hasNext()) {
+            Obstacle ob = obstacles.next();
+            if (ob.isPhantom()) {
                 continue;
             }
             Vector2 eyes = LevelUtil.position(worldRenderer.getWorld()
-                    .getLevel(), num.getPosition().getT(), num.getPosition()
+                    .getLevel(), ob.getPosition().getT(), ob.getPosition()
                     .getSide() == Side.SIDE_A ? 25.0 : -25.0);
-            worldRenderer.drawSprite("" + num.getValue(), eyes.x, eyes.y,
+            worldRenderer.drawSprite("" + ob.getValue(), eyes.x, eyes.y,
                     32.0f, Color.GREEN);
             // worldRenderer.getShapeRenderer().begin(ShapeType.Circle);
             // worldRenderer.getShapeRenderer().circle(eyes.x, eyes.y, 40.0f);

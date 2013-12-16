@@ -28,7 +28,7 @@ public class GameModeLive implements GameMode {
 
     private void loadWorldNumbers() {
         try {
-            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
+            _world.attachAllObstacles(Gdx.files.internal("data/numbers.txt")
                     .reader(512));
         } catch (IOException e) {
             handleNumberLoadError(e);

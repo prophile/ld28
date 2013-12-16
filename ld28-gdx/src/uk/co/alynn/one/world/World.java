@@ -8,12 +8,12 @@ import java.util.List;
 
 public final class World {
     private final Player _player;
-    private final List<Number> _numbers;
+    private final List<Obstacle> _obstacles;
     private final Level _level;
 
     public World(Level level) {
         _player = new Player();
-        _numbers = new ArrayList<Number>();
+        _obstacles = new ArrayList<Obstacle>();
         _level = level;
     }
 
@@ -25,24 +25,24 @@ public final class World {
         return _player;
     }
 
-    public Iterator<Number> numbersBetween(double leftBound, double rightBound) {
+    public Iterator<Obstacle> obstaclesBetween(double leftBound, double rightBound) {
         if (leftBound > rightBound) {
-            return new ChainedIterator<Number>(numbersBetween(leftBound, 1.0),
-                    numbersBetween(0.0, rightBound));
+            return new ChainedIterator<Obstacle>(obstaclesBetween(leftBound, 1.0),
+                    obstaclesBetween(0.0, rightBound));
         }
-        return new PositionedInRangeIterator(_numbers.iterator(), leftBound,
+        return new PositionedInRangeIterator(_obstacles.iterator(), leftBound,
                 rightBound);
     }
 
-    void attachNumber(Number n) {
-        _numbers.add(n);
+    void attachObstacle(Obstacle n) {
+        _obstacles.add(n);
     }
 
-    public void attachAllNumbers(BufferedReader source) throws IOException {
-        NumberGenerator gen = new NumberGenerator(this);
-        NumberFileParser parser = new NumberFileParser(gen, source);
+    public void attachAllObstacles(BufferedReader source) throws IOException {
+        ObstacleGenerator gen = new ObstacleGenerator(this);
+        ObstacleFileParser parser = new ObstacleFileParser(gen, source);
         parser.process();
-        for (Number n : _numbers) {
+        for (Obstacle n : _obstacles) {
             System.out.println(n);
         }
     }
@@ -96,11 +96,11 @@ public final class World {
     }
 
     private static class PositionedInRangeIterator extends
-            FilterIterator<Number> {
+            FilterIterator<Obstacle> {
         private final double _leftBound;
         private final double _rightBound;
 
-        public PositionedInRangeIterator(Iterator<Number> underlying,
+        public PositionedInRangeIterator(Iterator<Obstacle> underlying,
                 double leftBound, double rightBound) {
             super(underlying);
             _leftBound = leftBound;
@@ -108,7 +108,7 @@ public final class World {
         }
 
         @Override
-        public boolean test(Number x) {
+        public boolean test(Obstacle x) {
             double value = x.getPosition().getT();
             return value >= _leftBound && value < _rightBound;
         }

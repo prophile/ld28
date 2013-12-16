@@ -67,11 +67,11 @@ public final class WorldUpdater {
 
     private void collisionsInRange(double oldPos, double newPos)
             throws GameOverException {
-        Iterator<Number> numbers = _world.numbersBetween(oldPos, newPos);
+        Iterator<Obstacle> numbers = _world.obstaclesBetween(oldPos, newPos);
         int countHit = 0;
         while (numbers.hasNext()) {
             ++countHit;
-            Number activeNumber = numbers.next();
+            Obstacle activeNumber = numbers.next();
             collideWithNumber(activeNumber);
         }
         if (countHit > 0) {
@@ -80,7 +80,7 @@ public final class WorldUpdater {
         }
     }
 
-    private void collideWithNumber(Number num) throws GameOverException {
+    private void collideWithNumber(Obstacle num) throws GameOverException {
         if (num.getPosition().getSide() == _world.getPlayer().getPosition()
                 .getSide()) {
             hitNumber(num);
@@ -89,7 +89,7 @@ public final class WorldUpdater {
         }
     }
 
-    private void hitNumber(Number num) throws GameOverException {
+    private void hitNumber(Obstacle num) throws GameOverException {
         int value = num.getValue();
         if (value == 1) {
             collectNumber(num);
@@ -98,17 +98,17 @@ public final class WorldUpdater {
         }
     }
 
-    private void collectNumber(Number num) {
+    private void collectNumber(Obstacle num) {
         // do something
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
     }
 
-    private void experienceNumber(Number num) throws GameOverException {
+    private void experienceNumber(Obstacle num) throws GameOverException {
         throw new GameOverException();
     }
 
-    private void passNumber(Number num) {
+    private void passNumber(Obstacle num) {
         int oldValue = num.getValue();
         if (oldValue > 0) {
             num.setValue(oldValue - 1);

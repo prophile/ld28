@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-final class NumberFileParser {
-    private static final String NF_REGEX = "^\\s*([1-9][0-9]*)\\s*@\\s*(\\d+(?:\\.\\d+)?)\\s:\\s*([AB])\\s*$";
+final class ObstacleFileParser {
+    private static final String OF_REGEX = "^\\s*([1-9][0-9]*)\\s*@\\s*(\\d+(?:\\.\\d+)?)\\s:\\s*([AB])\\s*$";
 
-    private static final Pattern _matcher = Pattern.compile(NF_REGEX);
+    private static final Pattern _matcher = Pattern.compile(OF_REGEX);
 
     private final BufferedReader _reader;
 
-    private final NumberGenerator _generator;
+    private final ObstacleGenerator _generator;
 
-    public NumberFileParser(NumberGenerator generator, BufferedReader reader) {
+    public ObstacleFileParser(ObstacleGenerator generator, BufferedReader reader) {
         _reader = reader;
         _generator = generator;
     }
@@ -55,7 +55,7 @@ final class NumberFileParser {
         double pos = Double.parseDouble(match.group(2));
         Side side = interpretSide(match.group(3));
         System.out.println("Match " + value + " " + pos + " " + side);
-        _generator.addNumber(value, pos, side);
+        _generator.addObstacle(value, pos, side);
     }
 
     private static Side interpretSide(String sideMatch) {
