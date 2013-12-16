@@ -44,8 +44,11 @@ public class GameModeLive implements GameMode {
     public GameMode step(ActionQueue aq) {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
         emptyActionQueue(aq, up);
-        runOneTick(up);
-        return this;
+        if (runOneTick(up)) {
+            return this;
+        } else {
+            return new GameModeDead();
+        }
     }
 
     private boolean runOneTick(WorldUpdater up) {
