@@ -105,7 +105,7 @@ public final class WorldUpdater {
     }
 
     private void experienceNumber(Number num) throws GameOverException {
-        // throw new GameOverException();
+        throw new GameOverException();
     }
 
     private void passNumber(Number num) {
