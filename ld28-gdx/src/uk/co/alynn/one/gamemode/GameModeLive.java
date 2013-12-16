@@ -1,18 +1,16 @@
 package uk.co.alynn.one.gamemode;
 
-import java.io.IOException;
-
 import uk.co.alynn.one.ActionQueue;
 import uk.co.alynn.one.Constants;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
 import uk.co.alynn.one.world.GameOverException;
-import uk.co.alynn.one.world.Level;
+import uk.co.alynn.one.world.ObstacleLoader;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
+import uk.co.alynn.one.world.level.Level;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
@@ -22,22 +20,8 @@ public class GameModeLive implements GameMode {
 
     public GameModeLive(Constants ks, Level lvl) {
         _world = new World(lvl);
-        loadWorldNumbers();
+        ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
-    }
-
-    private void loadWorldNumbers() {
-        try {
-            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
-                    .reader(512));
-        } catch (IOException e) {
-            handleNumberLoadError(e);
-        }
-    }
-
-    private void handleNumberLoadError(IOException e) {
-        e.printStackTrace();
-        throw new RuntimeException("Failed to load number data.");
     }
 
     @Override

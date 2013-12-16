@@ -1,7 +1,7 @@
 package uk.co.alynn.one.render;
 
-import uk.co.alynn.one.world.Level;
-import uk.co.alynn.one.world.LevelUtil;
+import uk.co.alynn.one.world.level.Level;
+import uk.co.alynn.one.world.level.LevelUtil;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;

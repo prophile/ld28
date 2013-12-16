@@ -8,6 +8,7 @@ public final class WorldUpdater {
     private final World _world;
     private final Constants _constants;
     private final double _dt;
+    private boolean _scoredPoint = false;
 
     public WorldUpdater(World w, Constants k, double dt) {
         _world = w;
@@ -46,6 +47,34 @@ public final class WorldUpdater {
     public void tick() throws GameOverException {
         // various tick components
         tickVelocity();
+        tickNumberReload();
+    }
+
+    public void tickNumberReload() {
+        if (shouldReloadNumbers()) {
+            reloadNumbers();
+        }
+    }
+
+    private boolean shouldReloadNumbers() {
+        return _scoredPoint
+                && getRemainingPoints() < _constants.getInt("reload-threshold",
+                        2,
+                        "Score threshold under which everything is reloaded.");
+    }
+
+    private int getRemainingPoints() {
+        int total = 0;
+        Iterator<Obstacle> obs = _world.obstaclesBetween(0.0, 1.0);
+        while (obs.hasNext()) {
+            Obstacle eyes = obs.next();
+            total += eyes.getValue();
+        }
+        return total;
+    }
+
+    private void reloadNumbers() {
+        ObstacleLoader.loadObstacles(_world, "numbers", true);
     }
 
     private void tickVelocity() throws GameOverException {
@@ -67,12 +96,12 @@ public final class WorldUpdater {
 
     private void collisionsInRange(double oldPos, double newPos)
             throws GameOverException {
-        Iterator<Number> numbers = _world.numbersBetween(oldPos, newPos);
+        Iterator<Obstacle> numbers = _world.obstaclesBetween(oldPos, newPos);
         int countHit = 0;
         while (numbers.hasNext()) {
             ++countHit;
-            Number activeNumber = numbers.next();
-            collideWithNumber(activeNumber);
+            Obstacle activeNumber = numbers.next();
+            collideWithObstacle(activeNumber);
         }
         if (countHit > 0) {
             System.err.println("Hit " + countHit + " numbers between " + oldPos
@@ -80,35 +109,39 @@ public final class WorldUpdater {
         }
     }
 
-    private void collideWithNumber(Number num) throws GameOverException {
+    private void collideWithObstacle(Obstacle num) throws GameOverException {
+        if (num.isPhantom()) {
+            return;
+        }
         if (num.getPosition().getSide() == _world.getPlayer().getPosition()
                 .getSide()) {
-            hitNumber(num);
+            hitObstacle(num);
         } else {
-            passNumber(num);
+            passObstacle(num);
         }
     }
 
-    private void hitNumber(Number num) throws GameOverException {
+    private void hitObstacle(Obstacle num) throws GameOverException {
         int value = num.getValue();
         if (value == 1) {
-            collectNumber(num);
+            collectObstacle(num);
         } else {
-            experienceNumber(num);
+            experienceObstacle(num);
         }
     }
 
-    private void collectNumber(Number num) {
+    private void collectObstacle(Obstacle num) {
         // do something
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
+        _scoredPoint = true;
     }
 
-    private void experienceNumber(Number num) throws GameOverException {
+    private void experienceObstacle(Obstacle num) throws GameOverException {
         throw new GameOverException();
     }
 
-    private void passNumber(Number num) {
+    private void passObstacle(Obstacle num) {
         int oldValue = num.getValue();
         if (oldValue > 0) {
             num.setValue(oldValue - 1);

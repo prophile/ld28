@@ -1,3 +1,4 @@
 speed=0.025 # Speed
 line-width=7
+reload-threshold=2
 

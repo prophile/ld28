@@ -1,10 +1,10 @@
 package uk.co.alynn.one.world;
 
-public final class Number implements Comparable<Number> {
+public final class Obstacle implements Comparable<Obstacle> {
     private final Position _pos;
     private int _value;
 
-    public Number(Position pos) {
+    public Obstacle(Position pos) {
         _pos = pos;
         _value = 1;
     }
@@ -29,7 +29,7 @@ public final class Number implements Comparable<Number> {
     }
 
     @Override
-    public int compareTo(Number other) {
+    public int compareTo(Obstacle other) {
         return _pos.compareTo(other._pos);
     }
 
