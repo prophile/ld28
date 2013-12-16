@@ -50,10 +50,26 @@ public final class WorldUpdater {
         }
     }
 
-    public void tick(FXManager _fxManager) throws GameOverException {
+    public void tick(FXManager _fxManager, int threshold)
+            throws GameOverException, AdvanceLevelException {
         // various tick components
         tickVelocity(_fxManager);
         tickNumberReload();
+        tickLevelAdvance(threshold);
+    }
+
+    public void tickLevelAdvance(int threshold) throws AdvanceLevelException {
+        if (shouldAdvanceLevel(threshold)) {
+            advanceLevel();
+        }
+    }
+
+    private void advanceLevel() throws AdvanceLevelException {
+        throw new AdvanceLevelException(_world.getLevel());
+    }
+
+    private boolean shouldAdvanceLevel(int threshold) {
+        return _scoredPoint && _world.getPlayer().getScore() >= threshold;
     }
 
     public void tickNumberReload() {

@@ -3,10 +3,12 @@ package uk.co.alynn.one.gamemode;
 import uk.co.alynn.one.ActionQueue;
 import uk.co.alynn.one.ColourScheme;
 import uk.co.alynn.one.Constants;
+import uk.co.alynn.one.LevelGenerator;
 import uk.co.alynn.one.render.FXManager;
 import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
+import uk.co.alynn.one.world.AdvanceLevelException;
 import uk.co.alynn.one.world.GameOverException;
 import uk.co.alynn.one.world.ObstacleLoader;
 import uk.co.alynn.one.world.World;
@@ -21,14 +23,22 @@ public class GameModeLive implements GameMode {
     private final Constants _constants;
     private final FXManager _fxManager;
     private int gameOverCounter = -1;
+    private final int _thresholdScore;
     private final ColourScheme _colScheme;
 
     public GameModeLive(Constants ks, Level lvl, ColourScheme scheme) {
+        this(ks, lvl, scheme, 0);
+    }
+
+    public GameModeLive(Constants ks, Level lvl, ColourScheme scheme,
+            int initialScore) {
         _world = new World(lvl);
+        _world.getPlayer().setScore(initialScore);
         ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
         _fxManager = new FXManager();
         _colScheme = scheme;
+        _thresholdScore = initialScore + 10;
     }
 
     @Override
@@ -36,26 +46,27 @@ public class GameModeLive implements GameMode {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
         emptyActionQueue(aq, up);
         _fxManager.update();
-        if (runOneTick(up)) {
-            return this;
-        } else {
-            return new GameModeDead(_world.getPlayer().getScore(), _constants);
-        }
+        return runOneTick(up);
     }
 
-    private boolean runOneTick(WorldUpdater up) {
+    private GameMode runOneTick(WorldUpdater up) {
         _fxManager.setTrailEnabled(gameOverCounter < 0);
         if (gameOverCounter == -1) {
             try {
-                up.tick(_fxManager);
+                up.tick(_fxManager, _thresholdScore);
             } catch (GameOverException go) {
                 System.err.println("GAME OVER MAN");
                 gameOverCounter = _constants.getInt("game-over-hold-time", 35,
                         "Hold time, in frames, after game over.");
+            } catch (AdvanceLevelException adv) {
+                return new GameModeLive(_constants, adv.getLevel(),
+                        LevelGenerator.nextColourScheme(), _world.getPlayer()
+                                .getScore());
             }
-            return true;
+            return this;
         } else {
-            return --gameOverCounter > 0;
+            return --gameOverCounter > 0 ? this : new GameModeDead(_world
+                    .getPlayer().getScore(), _constants);
         }
     }
 

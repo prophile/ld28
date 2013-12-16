@@ -23,8 +23,12 @@ public final class LevelGenerator {
         return new ColourScheme(new Color(0xCC / 255.0f, 0x00 / 255.0f,
                 0xFF / 255.0f, 1.0f), new Color(0x33 / 255.0f, 0x00 / 255.0f,
                 0x66 / 255.0f, 1.0f), Color.WHITE, Color.WHITE);
-        // return new ColourScheme(new Color(0x00 / 255.0f, 0x00 / 255.0f,
-        // 0xCC / 255.0f, 1.0f), new Color(0x00 / 255.0f, 0x00 / 255.0f,
-        // 0x33 / 255.0f, 1.0f), Color.WHITE, Color.WHITE);
+
+    }
+
+    public static ColourScheme nextColourScheme() {
+        return new ColourScheme(new Color(0x00 / 255.0f, 0x00 / 255.0f,
+                0xCC / 255.0f, 1.0f), new Color(0x00 / 255.0f, 0x00 / 255.0f,
+                0x33 / 255.0f, 1.0f), Color.WHITE, Color.WHITE);
     }
 }
