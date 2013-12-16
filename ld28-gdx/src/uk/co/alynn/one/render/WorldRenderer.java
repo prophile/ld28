@@ -5,10 +5,12 @@ import uk.co.alynn.one.world.Player;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class WorldRenderer {
     private final RenderRequest _request;
@@ -41,10 +43,30 @@ public class WorldRenderer {
 
     }
 
+    private Matrix4 coreEyes() {
+        Matrix4 base = new Matrix4();
+        float sh = Gdx.graphics.getHeight(), sw = Gdx.graphics.getWidth();
+        base.translate(sw * 0.5f, sh * 0.5f, 0.0f); // move to centre of screen
+        Vector2 playerThing = playerPosition();
+        base.translate(-playerThing.x, -playerThing.y, 0.0f);
+        return base;
+    }
+
     void setTransform(Matrix3 bees) {
         Matrix4 pony = new Matrix4();
         pony.set(bees);
-        _request.getBatch().setTransformMatrix(pony);
+        Matrix4 tf = coreEyes().mul(pony);
+        _request.getBatch().setTransformMatrix(tf);
+        _shapeRenderer.setTransformMatrix(tf);
+        // test code
+        Vector2 pp = playerPosition();
+        Vector3 death = new Vector3(pp.x, pp.y, 0.0f);
+        death.mul(tf);
+        System.out.println("Screen pos: " + death);
+    }
+
+    void setUnitTransform() {
+        setTransform(new Matrix3());
     }
 
     private void renderCharacter() {

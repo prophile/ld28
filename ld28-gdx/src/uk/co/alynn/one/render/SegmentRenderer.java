@@ -4,17 +4,13 @@ import uk.co.alynn.one.world.Level;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector2;
 
 final class SegmentRenderer {
     static void renderSegments(WorldRenderer worldRenderer) {
-        Matrix3 transformation = new Matrix3();
-        transformation.translate(-240.0f, -160.0f);
-        transformation.translate(new Vector2(worldRenderer.playerPosition())
-                .mul(-1.0f));
         final int SEGMENTS = 3000;
         final double EPSILON = 1.0 / SEGMENTS;
+        worldRenderer.setUnitTransform();
         startSegmentRender(worldRenderer.getShapeRenderer());
         renderAllSegments(worldRenderer.getWorld().getLevel(),
                 worldRenderer.getShapeRenderer(), EPSILON);

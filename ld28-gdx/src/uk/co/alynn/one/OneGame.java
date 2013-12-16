@@ -117,6 +117,7 @@ public class OneGame implements ApplicationListener {
     }
 
     private void drawWorld() {
+        _batch.setProjectionMatrix(new Matrix4());
         _batch.setTransformMatrix(new Matrix4());
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, _batch, _textureManager));
