@@ -78,8 +78,15 @@ public final class WorldUpdater {
     }
 
     private void tickVelocity() throws GameOverException {
-        double dx = _constants.getDouble("speed", 0.0, "Forward speed.") * _dt;
+        double dx = playerSpeed() * _dt;
         tickMovement(dx);
+    }
+
+    private double playerSpeed() {
+        return _constants.getDouble("speed", 0.0, "Forward speed.")
+                / _world.getLevel()
+                        .fDerivative(_world.getPlayer().getPosition().getT())
+                        .len();
     }
 
     private Position advancePosition(Position pos, double dx) {
