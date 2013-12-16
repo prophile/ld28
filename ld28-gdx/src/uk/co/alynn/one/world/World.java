@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import uk.co.alynn.one.world.level.Level;
+
 public final class World {
     private final Player _player;
     private final List<Obstacle> _obstacles;

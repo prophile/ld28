@@ -1,9 +1,9 @@
 package uk.co.alynn.one.render;
 
-import uk.co.alynn.one.world.LevelUtil;
 import uk.co.alynn.one.world.Player;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
+import uk.co.alynn.one.world.level.LevelUtil;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

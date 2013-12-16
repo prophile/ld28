@@ -8,9 +8,9 @@ import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
 import uk.co.alynn.one.render.WorldRenderer;
 import uk.co.alynn.one.world.GameOverException;
-import uk.co.alynn.one.world.Level;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
+import uk.co.alynn.one.world.level.Level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -1,4 +1,4 @@
-package uk.co.alynn.one.world;
+package uk.co.alynn.one.world.level;
 
 import com.badlogic.gdx.math.Vector2;
 

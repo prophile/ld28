@@ -2,9 +2,9 @@ package uk.co.alynn.one.render;
 
 import java.util.Iterator;
 
-import uk.co.alynn.one.world.LevelUtil;
 import uk.co.alynn.one.world.Obstacle;
 import uk.co.alynn.one.world.Side;
+import uk.co.alynn.one.world.level.LevelUtil;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
