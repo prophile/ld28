@@ -27,10 +27,11 @@ public final class World {
         return _player;
     }
 
-    public Iterator<Obstacle> obstaclesBetween(double leftBound, double rightBound) {
+    public Iterator<Obstacle> obstaclesBetween(double leftBound,
+            double rightBound) {
         if (leftBound > rightBound) {
-            return new ChainedIterator<Obstacle>(obstaclesBetween(leftBound, 1.0),
-                    obstaclesBetween(0.0, rightBound));
+            return new ChainedIterator<Obstacle>(obstaclesBetween(leftBound,
+                    1.0), obstaclesBetween(0.0, rightBound));
         }
         return new PositionedInRangeIterator(_obstacles.iterator(), leftBound,
                 rightBound);
@@ -40,7 +41,11 @@ public final class World {
         _obstacles.add(n);
     }
 
-    public void attachAllObstacles(BufferedReader source) throws IOException {
+    void removeAllObstacles() {
+        _obstacles.clear();
+    }
+
+    void attachAllObstacles(BufferedReader source) throws IOException {
         ObstacleGenerator gen = new ObstacleGenerator(this);
         ObstacleFileParser parser = new ObstacleFileParser(gen, source);
         parser.process();
