@@ -6,4 +6,5 @@ game-over-hold-time=100 # hold time at end of game
 progression=hourglass;infinity
 level-advance=10 # points to advance level
 speed-increment=50
+score-multiplier=15
 

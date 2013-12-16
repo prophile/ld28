@@ -9,6 +9,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Matrix4;
@@ -44,7 +45,12 @@ public class GameModeDead implements GameMode {
         batch.begin();
         batch.setColor(Color.WHITE);
         batch.draw(rg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        fnt.draw(batch, "Final score: " + _finalScore, 10.0f, 10.0f);
+        fnt.drawMultiLine(batch,
+                LevelGenerator.displayScore(_constants, _finalScore), 10.0f,
+                30.0f, 100.0f, HAlignment.LEFT);
+        // fnt.drawWrapped(batch,
+        // LevelGenerator.displayScore(_constants, _finalScore),
+        // Gdx.graphics.getWidth() / 2, 100.0f, 1000.0f, HAlignment.CENTER);
         batch.end();
     }
 

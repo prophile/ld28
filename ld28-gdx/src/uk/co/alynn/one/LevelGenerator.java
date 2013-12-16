@@ -42,4 +42,10 @@ public final class LevelGenerator {
     public static ColourScheme nextColourScheme() {
         return SCHEMES[(int) (System.nanoTime() % SCHEMES.length)];
     }
+
+    public static String displayScore(Constants k, int score) {
+        int mul = k.getInt("score-multiplier", 1,
+                "Multiplier for score display.");
+        return "Score: " + mul * score;
+    }
 }
