@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import uk.co.alynn.one.Constants;
 import uk.co.alynn.one.render.FXManager;
+import uk.co.alynn.one.sound.SoundManager;
 import uk.co.alynn.one.world.level.LevelUtil;
 
 import com.badlogic.gdx.math.Vector2;
@@ -173,5 +174,6 @@ public final class WorldUpdater {
         num.setValue(oldValue - 1);
         Vector2 eyes = obstacleFXLocation(num, 40.0f);
         fxm.goat(eyes.x, eyes.y);
+        SoundManager.playSound("Reducing_by_1");
     }
 }
