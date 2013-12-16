@@ -147,6 +147,9 @@ public class BezierIteration{
         double cosAngle;
         cosAngle = (v1[0] * v2[0] + v1[1] * v2[1])/ ((Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]) * Math.sqrt(v2[0]* v2[0] + v2[1] * v2[1])));
         sAngle = Math.toDegrees(Math.acos(cosAngle));
+        if (Double.isNaN(sAngle)){
+        	sAngle = 0.000000000000000000001;    //dirty
+        }
         return sAngle;
     }
     
