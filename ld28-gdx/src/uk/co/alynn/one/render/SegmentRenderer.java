@@ -1,6 +1,7 @@
 package uk.co.alynn.one.render;
 
 import uk.co.alynn.one.world.Level;
+import uk.co.alynn.one.world.LevelUtil;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -8,26 +9,39 @@ import com.badlogic.gdx.math.Vector2;
 
 final class SegmentRenderer {
     static void renderSegments(WorldRenderer worldRenderer) {
-        final int SEGMENTS = 3000;
+        final int SEGMENTS = 4000;
         final double EPSILON = 1.0 / SEGMENTS;
         worldRenderer.setUnitTransform();
         startSegmentRender(worldRenderer.getShapeRenderer());
-        renderAllSegments(worldRenderer.getWorld().getLevel(),
-                worldRenderer.getShapeRenderer(), EPSILON);
+        renderAllSegments(
+                worldRenderer.getWorld().getLevel(),
+                worldRenderer.getShapeRenderer(),
+                EPSILON,
+                worldRenderer
+                        .getRequest()
+                        .getConstants()
+                        .getDouble("line-width", 5.0,
+                                "Pixel width of the line."));
         stopSegmentRender(worldRenderer.getShapeRenderer());
     }
 
+    private static void renderSegment(Level lvl, ShapeRenderer shapeRenderer,
+            double width, double a, double b) {
+        Vector2 p = LevelUtil.position(lvl, a, width * 0.5);
+        Vector2 q = LevelUtil.position(lvl, a, width * -0.5);
+        Vector2 r = LevelUtil.position(lvl, b, width * 0.5);
+        Vector2 s = LevelUtil.position(lvl, b, width * -0.5);
+        shapeRenderer.filledTriangle(p.x, p.y, q.x, q.y, r.x, r.y);
+        shapeRenderer.filledTriangle(q.x, q.y, s.x, s.y, r.x, r.y);
+    }
+
     private static void renderAllSegments(Level lvl,
-            ShapeRenderer shapeRenderer, double EPSILON) {
+            ShapeRenderer shapeRenderer, double EPSILON, double width) {
         for (double i = 0; i < 1.0; i += EPSILON) {
             double i_ = i + EPSILON;
-            Vector2 start = lvl.f(i);
-            Vector2 end = lvl.f(i_);
-            shapeRenderer.line(start.x, start.y, end.x, end.y);
+            renderSegment(lvl, shapeRenderer, width, i, i_);
         }
-        Vector2 start_ = lvl.f(1.0 - EPSILON);
-        Vector2 end_ = lvl.f(0.0);
-        shapeRenderer.line(start_.x, start_.y, end_.x, end_.y);
+        renderSegment(lvl, shapeRenderer, width, 1.0 - EPSILON, 0.0);
     }
 
     static void stopSegmentRender(ShapeRenderer shapeRenderer) {
@@ -36,6 +50,6 @@ final class SegmentRenderer {
 
     static void startSegmentRender(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
-        shapeRenderer.begin(ShapeType.Line);
+        shapeRenderer.begin(ShapeType.FilledTriangle);
     }
 }

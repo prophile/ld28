@@ -9,7 +9,6 @@ import uk.co.alynn.one.render.WorldRenderer;
 import uk.co.alynn.one.world.CircleLevel;
 import uk.co.alynn.one.world.GameOverException;
 import uk.co.alynn.one.world.Level;
-import uk.co.alynn.one.world.MirrorLevel;
 import uk.co.alynn.one.world.World;
 import uk.co.alynn.one.world.WorldUpdater;
 
@@ -102,7 +101,8 @@ public class OneGame implements ApplicationListener {
     }
 
     private Level generateLevel() {
-        return new MirrorLevel(new CircleLevel(1000.0f));
+        // return new MirrorLevel(new CircleLevel(1000.0f));
+        return new CircleLevel(1000.0f);
     }
 
     @Override
