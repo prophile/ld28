@@ -117,7 +117,6 @@ public class OneGame implements ApplicationListener {
     }
 
     private void drawWorld() {
-        _batch.setProjectionMatrix(new Matrix4());
         _batch.setTransformMatrix(new Matrix4());
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
                 _constants, _batch, _textureManager));
@@ -127,6 +126,10 @@ public class OneGame implements ApplicationListener {
     private void updateWorld() {
         WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
         emptyActionQueue(up);
+        runOneTick(up);
+    }
+
+    private void runOneTick(WorldUpdater up) {
         try {
             up.tick();
         } catch (GameOverException go) {

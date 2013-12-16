@@ -6,6 +6,7 @@ import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -37,6 +38,16 @@ public class WorldRenderer {
                 : -1.0);
         return LevelUtil.position(_world.getLevel(), plr.getPosition().getT(),
                 height);
+    }
+
+    void drawSprite(String sprite, float x, float y) {
+        TextureRegion rg = _request.getTextureManager().getTexture(sprite);
+        _request.getBatch().begin();
+        _request.getBatch().draw(rg, x - rg.getRegionWidth() / 2.0f,
+                y - rg.getRegionHeight() / 2.0f, rg.getRegionWidth() / 2.0f,
+                rg.getRegionHeight() / 2.0f, rg.getRegionWidth(),
+                rg.getRegionHeight(), 1.0f, 1.0f, 0.0f);
+        _request.getBatch().end();
     }
 
     private void renderBackground() {
