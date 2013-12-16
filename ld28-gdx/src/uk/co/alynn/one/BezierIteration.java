@@ -15,7 +15,7 @@ public class BezierIteration{
     	String test = "iterationStart " + startRaw + iterations;
         System.out.println(test);
     	
-    	while ( startRaw + 3 <= xraw.length ){
+    	while ( startRaw + 3 < xraw.length ){
     		// goes through input coordinates in steps of four
     		
     		// transfer raw data for this step in temporary array
@@ -145,9 +145,13 @@ public class BezierIteration{
         // calculate the angle between two vectors
         double sAngle = 0;
         double cosAngle;
-        cosAngle = (v1[0] * v2[0] + v1[1] * v2[1])
-                / (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]) + Math.sqrt(v2[0]
-                        * v2[0] + v2[1] * v2[1]));
+        String test = "Angle calculation" + (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]));
+        //*****TEST
+        System.out.println(test);
+        //TEST OVER
+        cosAngle = (v1[0] * v2[0] + v1[1] * v2[1])/ ((Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]) * Math.sqrt(v2[0]* v2[0] + v2[1] * v2[1])));
+        test = "cosAngle" + cosAngle + (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]));
+        System.out.println(test);
         sAngle = Math.toDegrees(Math.acos(cosAngle));
         return sAngle;
     }
