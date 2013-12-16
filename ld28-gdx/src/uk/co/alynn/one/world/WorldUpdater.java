@@ -159,7 +159,8 @@ public final class WorldUpdater {
     }
 
     private void experienceObstacle(Obstacle num) throws GameOverException {
-        throw new GameOverException();
+        SoundManager.playSound("crash_1");
+    	throw new GameOverException();
     }
 
     private Vector2 obstacleFXLocation(Obstacle n, float additionalHeight) {
