@@ -2,6 +2,6 @@ speed=200 # Speed
 line-width=7
 reload-threshold=8
 iterations=4 # pony
-level=infinity # options: star, infinity, hourglass, bat, first
+level=infinity # options: star, infinity, hourglass, bat, jellyfish, first
 game-over-hold-time=100 # hold time at end of game
 
