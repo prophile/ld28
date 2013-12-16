@@ -21,6 +21,7 @@ public class WorldRenderer {
     private final World _world;
     private final ShapeRenderer _shapeRenderer;
     private final boolean _includeCharacter;
+    private static float _playerHeight = 25.0f;
 
     public WorldRenderer(World world, RenderRequest rq, boolean includeCharacter) {
         _world = world;
@@ -29,7 +30,15 @@ public class WorldRenderer {
         _includeCharacter = includeCharacter;
     }
 
+    private void updatePH() {
+        float targetPH = 25.0f * (_world.getPlayer().getPosition().getSide() == Side.SIDE_A ? 1.0f
+                : -1.0f);
+        final float PH_SPEED = 0.5f;
+        _playerHeight = (1.0f - PH_SPEED) * _playerHeight + PH_SPEED * targetPH;
+    }
+
     public void renderWorld(FXManager fxm) {
+        updatePH();
         renderBackground();
         renderSegments();
         renderEffects(fxm);
@@ -62,10 +71,8 @@ public class WorldRenderer {
 
     public Vector2 playerPosition() {
         Player plr = _world.getPlayer();
-        double height = 25.0 * (plr.getPosition().getSide() == Side.SIDE_A ? 1.0
-                : -1.0);
         return LevelUtil.position(_world.getLevel(), plr.getPosition().getT(),
-                height);
+                _playerHeight);
     }
 
     static final Color NO_TINT = Color.WHITE;
