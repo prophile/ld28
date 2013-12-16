@@ -1,6 +1,6 @@
 package uk.co.alynn.one;
 
-class ActionQueue {
+public class ActionQueue {
     private boolean flipQueued;
 
     public ActionQueue() {
@@ -11,7 +11,7 @@ class ActionQueue {
         flipQueued = true;
     }
 
-    boolean popFlip() {
+    public boolean popFlip() {
         boolean rv = flipQueued;
         flipQueued = false;
         return rv;

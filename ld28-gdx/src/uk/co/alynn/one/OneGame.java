@@ -1,26 +1,20 @@
 package uk.co.alynn.one;
 
-import java.io.IOException;
-
+import uk.co.alynn.one.gamemode.GameMode;
+import uk.co.alynn.one.gamemode.GameModeLive;
 import uk.co.alynn.one.input.InputHandler;
-import uk.co.alynn.one.render.RenderRequest;
 import uk.co.alynn.one.render.TextureManager;
-import uk.co.alynn.one.render.WorldRenderer;
 import uk.co.alynn.one.world.CircleLevel;
-import uk.co.alynn.one.world.GameOverException;
 import uk.co.alynn.one.world.Level;
-import uk.co.alynn.one.world.World;
-import uk.co.alynn.one.world.WorldUpdater;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Matrix4;
 
 public class OneGame implements ApplicationListener {
     private SpriteBatch _batch;
     private Constants _constants;
-    private World _world;
+    private GameMode _gameMode;
     private TextureManager _textureManager;
     private InputHandler _inputHandler;
     private final ActionQueue _actionQueue = new ActionQueue();
@@ -29,7 +23,7 @@ public class OneGame implements ApplicationListener {
     public void create() {
         loadConstants();
         setup();
-        generateWorld();
+        _gameMode = new GameModeLive(_constants, generateLevel());
     }
 
     private void setup() {
@@ -76,29 +70,6 @@ public class OneGame implements ApplicationListener {
         });
     }
 
-    private void generateWorld() {
-        createWorldObject();
-        loadWorldNumbers();
-    }
-
-    private void createWorldObject() {
-        _world = new World(generateLevel());
-    }
-
-    private void loadWorldNumbers() {
-        try {
-            _world.attachAllNumbers(Gdx.files.internal("data/numbers.txt")
-                    .reader(512));
-        } catch (IOException e) {
-            handleNumberLoadError(e);
-        }
-    }
-
-    private void handleNumberLoadError(IOException e) {
-        e.printStackTrace();
-        throw new RuntimeException("Failed to load number data.");
-    }
-
     private Level generateLevel() {
         // return new MirrorLevel(new CircleLevel(1000.0f));
         return new CircleLevel(1000.0f);
@@ -111,37 +82,8 @@ public class OneGame implements ApplicationListener {
 
     @Override
     public void render() {
-        drawWorld();
-        updateWorld();
-    }
-
-    private void drawWorld() {
-        _batch.setTransformMatrix(new Matrix4());
-        WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
-                _constants, _batch, _textureManager));
-        renderer.renderWorld();
-    }
-
-    private void updateWorld() {
-        WorldUpdater up = new WorldUpdater(_world, _constants, 1 / 30.0);
-        emptyActionQueue(up);
-        runOneTick(up);
-    }
-
-    private void runOneTick(WorldUpdater up) {
-        try {
-            up.tick();
-        } catch (GameOverException go) {
-            // regenerate world
-            generateWorld();
-            System.err.println("GAME OVER MAN");
-        }
-    }
-
-    private void emptyActionQueue(WorldUpdater up) {
-        if (_actionQueue.popFlip()) {
-            up.doFlip();
-        }
+        _gameMode = _gameMode.step(_actionQueue);
+        _gameMode.render(_textureManager, _batch);
     }
 
     @Override
