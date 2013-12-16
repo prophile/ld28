@@ -133,6 +133,7 @@ public final class WorldUpdater {
         if (num.getPosition().getSide() == _world.getPlayer().getPosition()
                 .getSide()) {
             hitObstacle(num, fxm);
+            SoundManager.playSound("Smashing_1");
         } else {
             passObstacle(num, fxm);
         }
