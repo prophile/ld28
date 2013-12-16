@@ -103,6 +103,8 @@ public final class WorldUpdater {
         Position newPosition = advancePosition(oldPosition, dx);
         collisionsInRange(oldPosition.getT(), newPosition.getT(), fxm);
         player.setPosition(newPosition);
+        Vector2 pony = _world.getLevel().f(newPosition.getT());
+        fxm.moveTrail(pony.x, pony.y);
     }
 
     private void collisionsInRange(double oldPos, double newPos, FXManager fxm)
