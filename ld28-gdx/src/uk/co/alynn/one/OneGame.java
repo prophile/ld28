@@ -1,7 +1,7 @@
 package uk.co.alynn.one;
 
 import uk.co.alynn.one.gamemode.GameMode;
-import uk.co.alynn.one.gamemode.GameModeLive;
+import uk.co.alynn.one.gamemode.GameModeReady;
 import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.TextureManager;
 
@@ -21,8 +21,7 @@ public class OneGame implements ApplicationListener {
     public void create() {
         loadConstants();
         setup();
-        _gameMode = new GameModeLive(_constants,
-                LevelGenerator.generateLevel(_constants));
+        _gameMode = new GameModeReady(_constants);
     }
 
     private void setup() {
