@@ -72,7 +72,7 @@ public final class WorldUpdater {
         while (numbers.hasNext()) {
             ++countHit;
             Obstacle activeNumber = numbers.next();
-            collideWithNumber(activeNumber);
+            collideWithObstacle(activeNumber);
         }
         if (countHit > 0) {
             System.err.println("Hit " + countHit + " numbers between " + oldPos
@@ -80,35 +80,38 @@ public final class WorldUpdater {
         }
     }
 
-    private void collideWithNumber(Obstacle num) throws GameOverException {
+    private void collideWithObstacle(Obstacle num) throws GameOverException {
+        if (num.isPhantom()) {
+            return;
+        }
         if (num.getPosition().getSide() == _world.getPlayer().getPosition()
                 .getSide()) {
-            hitNumber(num);
+            hitObstacle(num);
         } else {
-            passNumber(num);
+            passObstacle(num);
         }
     }
 
-    private void hitNumber(Obstacle num) throws GameOverException {
+    private void hitObstacle(Obstacle num) throws GameOverException {
         int value = num.getValue();
         if (value == 1) {
-            collectNumber(num);
+            collectObstacle(num);
         } else {
-            experienceNumber(num);
+            experienceObstacle(num);
         }
     }
 
-    private void collectNumber(Obstacle num) {
+    private void collectObstacle(Obstacle num) {
         // do something
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
     }
 
-    private void experienceNumber(Obstacle num) throws GameOverException {
+    private void experienceObstacle(Obstacle num) throws GameOverException {
         throw new GameOverException();
     }
 
-    private void passNumber(Obstacle num) {
+    private void passObstacle(Obstacle num) {
         int oldValue = num.getValue();
         if (oldValue > 0) {
             num.setValue(oldValue - 1);
