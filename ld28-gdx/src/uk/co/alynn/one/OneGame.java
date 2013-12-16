@@ -4,6 +4,7 @@ import uk.co.alynn.one.gamemode.GameMode;
 import uk.co.alynn.one.gamemode.GameModeReady;
 import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.TextureManager;
+import uk.co.alynn.one.sound.SoundManager;
 import bloom.Bloom;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -28,6 +29,8 @@ public class OneGame implements ApplicationListener {
         setup();
         _gameMode = new GameModeReady(_constants);
         setBloomParams();
+
+        SoundManager.startMusic();
     }
 
     private void setBloomParams() {
