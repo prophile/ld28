@@ -7,6 +7,6 @@ final class CharacterRenderer {
     public static void renderCharacter(WorldRenderer worldRenderer) {
         worldRenderer.setUnitTransform();
         Vector2 pp = worldRenderer.playerPosition();
-        worldRenderer.drawSprite("temp", pp.x, pp.y, 60.0f, Color.CYAN);
+        worldRenderer.drawSprite("temp", pp.x, pp.y, 30.0f, Color.CYAN);
     }
 }
