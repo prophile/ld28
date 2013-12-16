@@ -3,6 +3,7 @@ package uk.co.alynn.one.render;
 import uk.co.alynn.one.world.Level;
 import uk.co.alynn.one.world.LevelUtil;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
@@ -49,7 +50,7 @@ final class SegmentRenderer {
     }
 
     static void startSegmentRender(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(0.0f, 0.0f, 0.0f, 1.0f);
+        shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.begin(ShapeType.FilledTriangle);
     }
 }
