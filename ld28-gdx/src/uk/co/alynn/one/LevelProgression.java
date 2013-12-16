@@ -24,7 +24,7 @@ public final class LevelProgression {
     public World popWorld() {
         String name = popLevelName();
         Level rawLevel = loadLevel(name);
-        World world = new World(new MirrorLevel(rawLevel, 1.0f, 3.0f));
+        World world = new World(new MirrorLevel(rawLevel, 1.0f, 3.0f), name);
         return world;
     }
 

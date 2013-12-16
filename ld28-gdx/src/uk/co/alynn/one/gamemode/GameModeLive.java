@@ -36,7 +36,8 @@ public class GameModeLive implements GameMode {
             ColourScheme scheme, int initialScore) {
         _world = progression.popWorld();
         _world.getPlayer().setScore(initialScore);
-        ObstacleLoader.loadObstacles(_world, "numbers", false);
+        ObstacleLoader.loadObstacles(_world, _world.getNumbersSet()
+                + "_numbers", false);
         _constants = ks;
         _fxManager = new FXManager();
         _colScheme = scheme;

@@ -93,7 +93,8 @@ public final class WorldUpdater {
     }
 
     private void reloadNumbers() {
-        ObstacleLoader.loadObstacles(_world, "numbers", true);
+        ObstacleLoader.loadObstacles(_world, _world.getNumbersSet()
+                + "_numbers", true);
     }
 
     private void tickVelocity(FXManager fxm) throws GameOverException {
