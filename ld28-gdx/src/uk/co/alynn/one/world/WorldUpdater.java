@@ -57,7 +57,10 @@ public final class WorldUpdater {
     }
 
     private boolean shouldReloadNumbers() {
-        return _scoredPoint && getRemainingPoints() < 2;
+        return _scoredPoint
+                && getRemainingPoints() < _constants.getInt("reload-threshold",
+                        2,
+                        "Score threshold under which everything is reloaded.");
     }
 
     private int getRemainingPoints() {
