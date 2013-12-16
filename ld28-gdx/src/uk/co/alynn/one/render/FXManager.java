@@ -28,7 +28,7 @@ public class FXManager {
     }
 
     public void render(SpriteBatch batch) {
-        _poofManager.render(batch);
         _trail.draw(batch, 1 / 30.0f);
+        _poofManager.render(batch);
     }
 }
