@@ -2,4 +2,5 @@ speed=200 # Speed
 line-width=7
 reload-threshold=8
 iterations=4 # pony
+level=infinity # options: star, infinity, hourglass, bat, first
 
