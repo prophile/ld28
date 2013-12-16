@@ -26,7 +26,8 @@ public final class BackgroundRenderer {
         if (elements == null) {
             initElements();
         }
-        Gdx.gl.glClearColor(3 / 16.0f, 0.0f, 6 / 16.0f, 1);
+        Color bg = worldRenderer.getRequest().getColourScheme().getBackground();
+        Gdx.gl.glClearColor(bg.r, bg.g, bg.b, bg.a);
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
         float ww = Gdx.graphics.getWidth(), wh = Gdx.graphics.getHeight();
