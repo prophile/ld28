@@ -6,6 +6,7 @@ import uk.co.alynn.one.LevelGenerator;
 import uk.co.alynn.one.render.TextureManager;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -41,6 +42,7 @@ public class GameModeDead implements GameMode {
         Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
         batch.setTransformMatrix(new Matrix4());
         batch.begin();
+        batch.setColor(Color.WHITE);
         batch.draw(rg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         fnt.draw(batch, "Final score: " + _finalScore, 10.0f, 10.0f);
         batch.end();
