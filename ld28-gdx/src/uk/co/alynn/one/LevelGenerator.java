@@ -19,7 +19,17 @@ public final class LevelGenerator {
             new ColourScheme(new Color(0x00 / 255.0f, 0x00 / 255.0f,
                     0xCC / 255.0f, 1.0f), new Color(0x00 / 255.0f,
                     0x00 / 255.0f, 0x33 / 255.0f, 1.0f), Color.WHITE,
-                    Color.WHITE) };
+                    Color.WHITE),
+            new ColourScheme(new Color(0x00 / 255.0f, 0xCC / 255.0f,
+                    0x00 / 255.0f, 1.0f), new Color(0x00 / 255.0f,
+                    0x33 / 255.0f, 0x00 / 255.0f, 1.0f), Color.WHITE,
+                    Color.WHITE),
+            new ColourScheme(new Color(0x00 / 255.0f, 0xFF / 255.0f,
+                    0xFF / 255.0f, 1.0f), new Color(0x00 / 255.0f,
+                    0x99 / 255.0f, 0x99 / 255.0f, 1.0f), Color.WHITE,
+                    Color.WHITE),
+            new ColourScheme(new Color(1.0f, 0.0f, 0.0f, 1.0f), new Color(
+                    6 / 16.0f, 0.0f, 0.0f, 1.0f), Color.WHITE, Color.WHITE) };
 
     public static LevelProgression defaultLevelProgression(Constants k) {
         String prog = k.getString("progression", "hourglass",
@@ -40,7 +50,7 @@ public final class LevelGenerator {
     }
 
     public static ColourScheme nextColourScheme() {
-        return SCHEMES[(int) (System.nanoTime() % SCHEMES.length)];
+        return SCHEMES[(int) (System.currentTimeMillis() % SCHEMES.length)];
     }
 
     public static String displayScore(Constants k, int score) {
