@@ -24,7 +24,13 @@ public class GameModeLive implements GameMode {
     private final ColourScheme _colScheme;
 
     public GameModeLive(Constants ks, Level lvl, ColourScheme scheme) {
+        this(ks, lvl, scheme, 0);
+    }
+
+    public GameModeLive(Constants ks, Level lvl, ColourScheme scheme,
+            int initialScore) {
         _world = new World(lvl);
+        _world.getPlayer().setScore(initialScore);
         ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
         _fxManager = new FXManager();
