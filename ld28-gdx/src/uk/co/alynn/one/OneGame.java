@@ -4,8 +4,6 @@ import uk.co.alynn.one.gamemode.GameMode;
 import uk.co.alynn.one.gamemode.GameModeLive;
 import uk.co.alynn.one.input.InputHandler;
 import uk.co.alynn.one.render.TextureManager;
-import uk.co.alynn.one.world.CircleLevel;
-import uk.co.alynn.one.world.Level;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -23,7 +21,8 @@ public class OneGame implements ApplicationListener {
     public void create() {
         loadConstants();
         setup();
-        _gameMode = new GameModeLive(_constants, generateLevel());
+        _gameMode = new GameModeLive(_constants,
+                LevelGenerator.generateLevel(_constants));
     }
 
     private void setup() {
@@ -68,11 +67,6 @@ public class OneGame implements ApplicationListener {
                 _actionQueue.queueFlip();
             }
         });
-    }
-
-    private Level generateLevel() {
-        // return new MirrorLevel(new CircleLevel(1000.0f));
-        return new CircleLevel(1000.0f);
     }
 
     @Override

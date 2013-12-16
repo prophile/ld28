@@ -2,8 +2,8 @@ package uk.co.alynn.one.gamemode;
 
 import uk.co.alynn.one.ActionQueue;
 import uk.co.alynn.one.Constants;
+import uk.co.alynn.one.LevelGenerator;
 import uk.co.alynn.one.render.TextureManager;
-import uk.co.alynn.one.world.CircleLevel;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
@@ -22,7 +22,8 @@ public class GameModeDead implements GameMode {
     @Override
     public GameMode step(ActionQueue aq) {
         if (aq.popFlip()) {
-            return new GameModeLive(_constants, new CircleLevel(1400.0f));
+            return new GameModeLive(_constants,
+                    LevelGenerator.generateLevel(_constants));
         } else {
             return this;
         }
