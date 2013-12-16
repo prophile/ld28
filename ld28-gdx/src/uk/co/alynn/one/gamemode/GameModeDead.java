@@ -46,8 +46,9 @@ public class GameModeDead implements GameMode {
         batch.setColor(Color.WHITE);
         batch.draw(rg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         fnt.drawMultiLine(batch,
-                LevelGenerator.displayScore(_constants, _finalScore), 10.0f,
-                30.0f, 100.0f, HAlignment.LEFT);
+                LevelGenerator.displayScore(_constants, _finalScore), 0.0f,
+                Gdx.graphics.getHeight() * 0.6f, Gdx.graphics.getWidth(),
+                HAlignment.CENTER);
         // fnt.drawWrapped(batch,
         // LevelGenerator.displayScore(_constants, _finalScore),
         // Gdx.graphics.getWidth() / 2, 100.0f, 1000.0f, HAlignment.CENTER);
