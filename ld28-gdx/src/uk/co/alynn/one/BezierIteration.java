@@ -108,11 +108,20 @@ public class BezierIteration{
 
     	// calculate last segment
     	sLength = Math.sqrt(Math.pow((x[counter]-x[0]),2) + Math.pow((y[counter]-y[0]),2));
+    	
     	v1[0] = x[0] - x[counter];
     	v1[1] = y[0] - y[counter];
     	v2[0] = x[counter] - x[counter-1];
     	v2[1] = y[counter] - y[counter-1];
     	sAngle = BezierIteration.vectorsToAngle(v1, v2);
+    	if (x[counter] == x[0]){
+			// dirty solution
+		    // if the bezier curve is closed and the start and endpoint are the same
+			// distance is zero
+		    // add a small distance at angle 0 inbetween them
+				sLength = 0.00000000000000001;
+				sAngle = 0;	
+			}
 
     	s[counter] = new Segment(sLength, sAngle);
 
@@ -124,12 +133,22 @@ public class BezierIteration{
     		
     		// calculate angle
     		if (counter == 0){
-            	v1[0] = x[counter + 1] - x[counter];
-            	v1[1] = y[counter + 1] - y[counter];
-            	v2[0] = x[counter] - x[elements];   // use the last element
-            	v2[1] = y[counter] - y[elements];   // use the last element
-            	sAngle = BezierIteration.vectorsToAngle(v1, v2);
-    			
+    			if (x[counter] == x[elements]){
+    			// dirty solution
+    		    // if the bezier curve is closed and the start and endpoint are the same
+    			// distance is zero
+    		    // add a small distance at angle 0 inbetween them
+    				sLength = 0.00000000000000001;
+    				sAngle = 0;
+    				
+    			}else{
+    				v1[0] = x[counter + 1] - x[counter];
+    				v1[1] = y[counter + 1] - y[counter];
+    				v2[0] = x[counter] - x[elements];   // use the last element
+    				v2[1] = y[counter] - y[elements];   // use the last element
+    				sAngle = BezierIteration.vectorsToAngle(v1, v2);
+    			}
+
     		}else{
     			v1[0] = x[counter + 1] - x[counter];
     			v1[1] = y[counter + 1] - y[counter];
@@ -145,13 +164,7 @@ public class BezierIteration{
         // calculate the angle between two vectors
         double sAngle = 0;
         double cosAngle;
-        String test = "Angle calculation" + (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]));
-        //*****TEST
-        System.out.println(test);
-        //TEST OVER
         cosAngle = (v1[0] * v2[0] + v1[1] * v2[1])/ ((Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]) * Math.sqrt(v2[0]* v2[0] + v2[1] * v2[1])));
-        test = "cosAngle" + cosAngle + (Math.sqrt(v1[0] * v1[0] + v1[1] * v1[1]));
-        System.out.println(test);
         sAngle = Math.toDegrees(Math.acos(cosAngle));
         return sAngle;
     }
