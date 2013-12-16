@@ -1,18 +1,31 @@
-package uk.co.alynn.one.world;
+package uk.co.alynn.one.world.level;
+
+import java.util.Collections;
+import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
 public class BezierLevel implements Level {
+    private final List<Vector2> _nodes;
+
+    public BezierLevel(List<Vector2> nodes) {
+        _nodes = Collections.unmodifiableList(nodes);
+    }
+
     @Override
     public Vector2 f(double x) {
-        // TODO Auto-generated method stub
-        // return new Vector2(1000.0f * (float) Math.cos(2.0 * Math.PI * x),
-        // 1000.0f * (float) Math.sin(2.0 * Math.PI * x));
-        if (x < 0.5) {
-            return new Vector2((float) (x * 1000.0), 0.0f);
-        } else {
-            return new Vector2(500.0f, (float) (1000.0 * (x - 0.5)));
-        }
+        x *= _nodes.size() - 1;
+        int item = (int) x;
+        Vector2 vertex = _nodes.get(item % _nodes.size());
+        Vector2 vertex_ = _nodes.get((item + 1) % _nodes.size());
+        double delta = x - item;
+        return new Vector2(lerp(delta, vertex.x, vertex_.x), lerp(delta,
+                vertex.y, vertex_.y));
+    }
+
+    private static float lerp(double delta, float x, float y) {
+        float delta_ = (float) delta;
+        return (1.0f - delta_) * x + delta_ * y;
     }
 
     @Override

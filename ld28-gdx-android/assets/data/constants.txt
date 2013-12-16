@@ -1,4 +1,5 @@
 speed=0.025 # Speed
 line-width=7
-reload-threshold=2
+reload-threshold=8
+iterations=4 # pony
 
