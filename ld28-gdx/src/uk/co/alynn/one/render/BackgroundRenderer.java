@@ -36,7 +36,7 @@ public final class BackgroundRenderer {
             elt.update(1.0f / 30.0f);
             String type = "Background_Shapes_" + elt.getType();
             worldRenderer.drawSprite(type, ww * 0.5f + elt.getX(), wh * 0.5f
-                    + elt.getY(), 192.0f, Color.PINK);
+                    + elt.getY(), 192.0f, Color.PINK, elt.getAngle());
         }
     }
 }

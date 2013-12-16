@@ -1,5 +1,6 @@
 package uk.co.alynn.one.render;
 
+import uk.co.alynn.one.Angle;
 import uk.co.alynn.one.LevelGenerator;
 import uk.co.alynn.one.world.Player;
 import uk.co.alynn.one.world.Side;
@@ -79,6 +80,11 @@ public class WorldRenderer {
 
     void drawSprite(String sprite, float x, float y, float targetWidth,
             Color col) {
+        drawSprite(sprite, x, y, targetWidth, col, Angle.degrees(0));
+    }
+
+    void drawSprite(String sprite, float x, float y, float targetWidth,
+            Color col, Angle rot) {
         TextureRegion rg = _request.getTextureManager().getTexture(sprite);
         _request.getBatch().begin();
         _request.getBatch().setColor(col);
@@ -88,7 +94,8 @@ public class WorldRenderer {
         float targetHeight = regionHeight * ratio;
         _request.getBatch().draw(rg, x - targetWidth / 2.0f,
                 y - targetHeight / 2.0f, regionWidth, regionHeight,
-                targetWidth, targetHeight, ratio, ratio, 0.0f);
+                targetWidth, targetHeight, ratio, ratio,
+                (float) rot.getDegrees());
         _request.getBatch().end();
         // _shapeRenderer.begin(ShapeType.Rectangle);
         // _shapeRenderer.rect(x - targetWidth * 0.5f, y - targetHeight * 0.5f,
