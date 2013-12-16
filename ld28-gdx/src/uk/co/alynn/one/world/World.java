@@ -45,8 +45,9 @@ public final class World {
         _obstacles.clear();
     }
 
-    void attachAllObstacles(BufferedReader source) throws IOException {
-        ObstacleGenerator gen = new ObstacleGenerator(this);
+    void attachAllObstacles(BufferedReader source, boolean avoidPlayer)
+            throws IOException {
+        ObstacleGenerator gen = new ObstacleGenerator(this, avoidPlayer);
         ObstacleFileParser parser = new ObstacleFileParser(gen, source);
         parser.process();
         for (Obstacle n : _obstacles) {

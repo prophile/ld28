@@ -57,11 +57,21 @@ public final class WorldUpdater {
     }
 
     private boolean shouldReloadNumbers() {
-        return _world.getPlayer().getScore() > 2 && _scoredPoint;
+        return _scoredPoint && getRemainingPoints() < 2;
+    }
+
+    private int getRemainingPoints() {
+        int total = 0;
+        Iterator<Obstacle> obs = _world.obstaclesBetween(0.0, 1.0);
+        while (obs.hasNext()) {
+            Obstacle eyes = obs.next();
+            total += eyes.getValue();
+        }
+        return total;
     }
 
     private void reloadNumbers() {
-        ObstacleLoader.loadObstacles(_world, "numbers");
+        ObstacleLoader.loadObstacles(_world, "numbers", true);
     }
 
     private void tickVelocity() throws GameOverException {

@@ -20,7 +20,7 @@ public class GameModeLive implements GameMode {
 
     public GameModeLive(Constants ks, Level lvl) {
         _world = new World(lvl);
-        ObstacleLoader.loadObstacles(_world, "numbers");
+        ObstacleLoader.loadObstacles(_world, "numbers", false);
         _constants = ks;
     }
 
