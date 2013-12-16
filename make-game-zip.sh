@@ -3,12 +3,12 @@ rm -f one.zip
 dir=`mktemp -d lolwatXXXXXX`
 curdir=`pwd`
 echo $dir
-mkdir $dir/ld28-gdx
-cp -r ld28-gdx* $dir/ld28-gdx/
-cp -r *.bat $dir/ld28-gdx/
-cp -r *.command $dir/ld28-gdx/
+mkdir $dir/monorail
+cp -r ld28-gdx* $dir/monorail/
+cp -r *.bat $dir/monorail/
+cp -r *.command $dir/monorail/
 cd $dir
-zip -r one.zip ld28-gdx
+zip -r one.zip monorail
 mv one.zip $curdir
 cd $curdir
 rm -rf $dir
