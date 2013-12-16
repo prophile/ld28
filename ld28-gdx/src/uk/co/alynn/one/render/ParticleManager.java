@@ -52,7 +52,7 @@ public class ParticleManager {
 
     public void render(SpriteBatch batch) {
         Iterator<Effect> fx = _liveEffects.iterator();
-        Matrix4 oldTF = batch.getTransformMatrix();
+        Matrix4 oldTF = new Matrix4(batch.getTransformMatrix());
         while (fx.hasNext()) {
             Effect item = fx.next();
             Matrix4 tf = new Matrix4(oldTF);

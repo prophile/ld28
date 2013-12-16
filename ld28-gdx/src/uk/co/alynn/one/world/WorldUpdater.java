@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import uk.co.alynn.one.Constants;
 import uk.co.alynn.one.render.FXManager;
+import uk.co.alynn.one.world.level.LevelUtil;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -131,7 +132,7 @@ public final class WorldUpdater {
                 .getSide()) {
             hitObstacle(num, fxm);
         } else {
-            passObstacle(num);
+            passObstacle(num, fxm);
         }
     }
 
@@ -147,7 +148,7 @@ public final class WorldUpdater {
 
     private void collectObstacle(Obstacle num, FXManager fxm) {
         // do something
-        Vector2 eyes = _world.getLevel().f(num.getPosition().getT());
+        Vector2 eyes = obstacleFXLocation(num, 0.0f);
         fxm.poof1(eyes.x, eyes.y);
         num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
@@ -158,10 +159,19 @@ public final class WorldUpdater {
         throw new GameOverException();
     }
 
-    private void passObstacle(Obstacle num) {
+    private Vector2 obstacleFXLocation(Obstacle n, float additionalHeight) {
+        float trackHeight = n.getPosition().getSide() == Side.SIDE_A ? 1.0f
+                : -1.0f;
+        trackHeight *= 25.0f + additionalHeight;
+        double t = n.getPosition().getT();
+        Vector2 eyes = LevelUtil.position(_world.getLevel(), t, trackHeight);
+        return eyes;
+    }
+
+    private void passObstacle(Obstacle num, FXManager fxm) {
         int oldValue = num.getValue();
-        if (oldValue > 0) {
-            num.setValue(oldValue - 1);
-        }
+        num.setValue(oldValue - 1);
+        Vector2 eyes = obstacleFXLocation(num, 40.0f);
+        fxm.goat(eyes.x, eyes.y);
     }
 }
