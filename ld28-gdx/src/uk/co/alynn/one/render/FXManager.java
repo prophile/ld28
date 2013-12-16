@@ -11,7 +11,7 @@ public class FXManager {
     public FXManager() {
         _poofManager = new ParticleManager("crashbastard", 0.4f);
         _trail = new ParticleEffect();
-        _trail.load(Gdx.files.internal("data/trailbastard"),
+        _trail.load(Gdx.files.internal("data/trailbastard3"),
                 Gdx.files.internal("data"));
     }
 

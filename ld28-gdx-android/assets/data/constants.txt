@@ -1,4 +1,4 @@
-speed=100 # Speed
+speed=200 # Speed
 line-width=7
 reload-threshold=8
 iterations=4 # pony
