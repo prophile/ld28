@@ -1,10 +1,10 @@
-speed=300 # Speed
+speed=200 # Speed
 line-width=7
 reload-threshold=8
 iterations=4 # pony
 game-over-hold-time=100 # hold time at end of game
-progression=hourglass;infinity
+progression=hourglass;infinity;jellyfish;bat;star
 level-advance=10 # points to advance level
 speed-increment=50
-score-multiplier=15
+score-multiplier=10
 
