@@ -138,21 +138,21 @@ public final class WorldUpdater {
 
     private void hitObstacle(Obstacle num, FXManager fxm)
             throws GameOverException {
+        Vector2 eyes = obstacleFXLocation(num, 0.0f);
+        fxm.poof1(eyes.x, eyes.y);
         int value = num.getValue();
         if (value == 1) {
-            collectObstacle(num, fxm);
+            collectObstacle(num);
         } else {
             experienceObstacle(num);
         }
     }
 
-    private void collectObstacle(Obstacle num, FXManager fxm) {
+    private void collectObstacle(Obstacle num) {
         // do something
-        Vector2 eyes = obstacleFXLocation(num, 0.0f);
-        fxm.poof1(eyes.x, eyes.y);
-        num.setValue(0);
         _world.getPlayer().setScore(_world.getPlayer().getScore() + 1);
         _scoredPoint = true;
+        num.setValue(0);
     }
 
     private void experienceObstacle(Obstacle num) throws GameOverException {

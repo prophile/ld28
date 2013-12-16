@@ -3,4 +3,5 @@ line-width=7
 reload-threshold=8
 iterations=4 # pony
 level=infinity # options: star, infinity, hourglass, bat, first
+game-over-hold-time=100 # hold time at end of game
 

@@ -19,6 +19,7 @@ public class GameModeLive implements GameMode {
     private final World _world;
     private final Constants _constants;
     private final FXManager _fxManager;
+    private int gameOverCounter = -1;
 
     public GameModeLive(Constants ks, Level lvl) {
         _world = new World(lvl);
@@ -40,12 +41,18 @@ public class GameModeLive implements GameMode {
     }
 
     private boolean runOneTick(WorldUpdater up) {
-        try {
-            up.tick(_fxManager);
+        _fxManager.setTrailEnabled(gameOverCounter < 0);
+        if (gameOverCounter == -1) {
+            try {
+                up.tick(_fxManager);
+            } catch (GameOverException go) {
+                System.err.println("GAME OVER MAN");
+                gameOverCounter = _constants.getInt("game-over-hold-time", 35,
+                        "Hold time, in frames, after game over.");
+            }
             return true;
-        } catch (GameOverException go) {
-            System.err.println("GAME OVER MAN");
-            return false;
+        } else {
+            return --gameOverCounter > 0;
         }
     }
 
@@ -60,7 +67,7 @@ public class GameModeLive implements GameMode {
         // TODO Auto-generated method stub
         batch.setTransformMatrix(new Matrix4());
         WorldRenderer renderer = new WorldRenderer(_world, new RenderRequest(
-                _constants, batch, txman));
+                _constants, batch, txman), gameOverCounter < 0);
         renderer.renderWorld(_fxManager);
     }
 

@@ -19,18 +19,22 @@ public class WorldRenderer {
     private final RenderRequest _request;
     private final World _world;
     private final ShapeRenderer _shapeRenderer;
+    private final boolean _includeCharacter;
 
-    public WorldRenderer(World world, RenderRequest rq) {
+    public WorldRenderer(World world, RenderRequest rq, boolean includeCharacter) {
         _world = world;
         _request = rq;
         _shapeRenderer = new ShapeRenderer();
+        _includeCharacter = includeCharacter;
     }
 
     public void renderWorld(FXManager fxm) {
         renderBackground();
         renderSegments();
         renderEffects(fxm);
-        renderCharacter();
+        if (_includeCharacter) {
+            renderCharacter();
+        }
         renderObstacles();
         renderScore();
         _shapeRenderer.dispose();

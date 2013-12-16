@@ -12,6 +12,7 @@ public class FXManager {
     private static final int FX_TRAIL = 0x02;
     private static final int FX_POOF = 0x04;
     private static final int FX = -1;
+    private boolean _trailEnabled = true;
 
     public FXManager() {
         _poofManager = new ParticleManager("crashbastard", 0.4f);
@@ -33,13 +34,17 @@ public class FXManager {
         _trail.setPosition(x, y);
     }
 
+    public void setTrailEnabled(boolean en) {
+        _trailEnabled = en;
+    }
+
     public void update() {
         _poofManager.update();
         _goatManager.update();
     }
 
     public void render(SpriteBatch batch) {
-        if ((FX & FX_TRAIL) != 0) {
+        if ((FX & FX_TRAIL) != 0 && _trailEnabled) {
             _trail.draw(batch, 1 / 30.0f);
         }
         if ((FX & FX_POOF) != 0) {
