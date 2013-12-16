@@ -16,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 
 public class OneGame implements ApplicationListener {
     private OrthographicCamera camera;
@@ -50,7 +51,7 @@ public class OneGame implements ApplicationListener {
         camera = new OrthographicCamera(1, h / w);
         batch = new SpriteBatch();
 
-        List<Segment> segs = new ArrayList<Segment>();
+        List<Vector2> segs = new ArrayList<Vector2>();
 
         // ****** CIRCLE
         //int len = 30;
@@ -59,10 +60,10 @@ public class OneGame implements ApplicationListener {
         //}
         
         // ****** ANY BEZIER CURVE
-        BezierIteration.getBezier(segs);
+        BezierIteration.getBezier(segs, constants);
         
         
-        world = new World(segs);
+        //world = new World(segs);
     }
 
     @Override
