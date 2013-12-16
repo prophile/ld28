@@ -12,11 +12,17 @@ public final class World {
     private final Player _player;
     private final List<Obstacle> _obstacles;
     private final Level _level;
+    private final String _numbersGoo;
 
-    public World(Level level) {
+    public World(Level level, String numbersGoo) {
         _player = new Player();
         _obstacles = new ArrayList<Obstacle>();
         _level = level;
+        _numbersGoo = numbersGoo;
+    }
+
+    public String getNumbersSet() {
+        return _numbersGoo;
     }
 
     public Level getLevel() {

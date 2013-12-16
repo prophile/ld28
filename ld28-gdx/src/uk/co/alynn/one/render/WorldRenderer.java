@@ -1,5 +1,6 @@
 package uk.co.alynn.one.render;
 
+import uk.co.alynn.one.LevelGenerator;
 import uk.co.alynn.one.world.Player;
 import uk.co.alynn.one.world.Side;
 import uk.co.alynn.one.world.World;
@@ -53,7 +54,8 @@ public class WorldRenderer {
         setZeroTransform();
         SpriteBatch batch = _request.getBatch();
         batch.begin();
-        fnt.draw(batch, "" + _world.getPlayer().getScore(), 10.0f,
+        fnt.draw(batch, LevelGenerator.displayScore(_request.getConstants(),
+                _world.getPlayer().getScore()), 10.0f,
                 Gdx.graphics.getHeight() - 10.0f);
         batch.end();
     }

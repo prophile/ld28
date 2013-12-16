@@ -22,7 +22,7 @@ public final class GameModeReady implements GameMode {
     public GameMode step(ActionQueue aq) {
         if (aq.popFlip()) {
             return new GameModeLive(_constants,
-                    LevelGenerator.generateLevel(_constants),
+                    LevelGenerator.defaultLevelProgression(_constants),
                     LevelGenerator.defaultColourScheme(), 0);
         } else {
             return this;
@@ -38,5 +38,10 @@ public final class GameModeReady implements GameMode {
         batch.begin();
         batch.draw(rg, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
+    }
+
+    @Override
+    public boolean usesBloom() {
+        return false;
     }
 }

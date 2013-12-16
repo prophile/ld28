@@ -9,4 +9,6 @@ public interface GameMode {
     public GameMode step(ActionQueue aq);
 
     public void render(TextureManager texman, SpriteBatch batch);
+
+    public boolean usesBloom();
 }
